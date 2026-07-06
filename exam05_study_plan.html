@@ -1,0 +1,1232 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Exam Rank 05 — 2-Day Mastery Plan</title>
+<style>
+  :root {
+    --bg: #0a0e14;
+    --bg-2: #0d121b;
+    --panel: #11161f;
+    --panel-2: #161c28;
+    --border: #232c3b;
+    --text: #d7dee9;
+    --muted: #8a97ab;
+    --accent: #5cc8ff;
+    --accent-2: #a78bfa;
+    --green: #4ade80;
+    --amber: #fbbf24;
+    --red: #f87171;
+    --pink: #f472b6;
+    --code-bg: #0c1119;
+    --radius: 14px;
+    --shadow: 0 10px 30px rgba(0,0,0,.45);
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    background: radial-gradient(1200px 600px at 80% -10%, #15233a 0%, transparent 60%),
+                radial-gradient(1000px 500px at -10% 10%, #1a1530 0%, transparent 55%),
+                var(--bg);
+    color: var(--text);
+    line-height: 1.6;
+    min-height: 100vh;
+  }
+  ::selection { background: var(--accent); color: #04121f; }
+
+  /* Layout */
+  .app { display: flex; min-height: 100vh; }
+  .sidebar {
+    width: 280px; flex-shrink: 0; padding: 24px 18px;
+    border-right: 1px solid var(--border);
+    background: linear-gradient(180deg, rgba(20,26,38,.7), rgba(10,14,20,.4));
+    backdrop-filter: blur(10px);
+    position: sticky; top: 0; height: 100vh; overflow-y: auto;
+  }
+  .main { flex: 1; padding: 36px 48px 120px; max-width: 1100px; margin: 0 auto; width: 100%; }
+
+  .brand { display: flex; align-items: center; gap: 12px; margin-bottom: 6px; }
+  .brand .logo {
+    width: 40px; height: 40px; border-radius: 11px;
+    background: linear-gradient(135deg, var(--accent), var(--accent-2));
+    display: grid; place-items: center; font-weight: 800; color: #04121f; font-size: 18px;
+    box-shadow: 0 6px 18px rgba(92,200,255,.3);
+  }
+  .brand h1 { font-size: 17px; letter-spacing: .3px; }
+  .brand p { font-size: 12px; color: var(--muted); }
+
+  .progress-wrap { margin: 22px 0; }
+  .progress-wrap .label { display: flex; justify-content: space-between; font-size: 12px; color: var(--muted); margin-bottom: 8px; }
+  .progress-track { height: 9px; background: var(--panel-2); border-radius: 99px; overflow: hidden; border: 1px solid var(--border); }
+  .progress-fill { height: 100%; width: 0%; background: linear-gradient(90deg, var(--green), var(--accent)); border-radius: 99px; transition: width .5s cubic-bezier(.2,.8,.2,1); }
+
+  .nav { list-style: none; margin-top: 12px; }
+  .nav li a {
+    display: flex; align-items: center; gap: 10px; padding: 10px 12px; border-radius: 10px;
+    color: var(--muted); text-decoration: none; font-size: 14px; font-weight: 500;
+    transition: all .18s ease; cursor: pointer; border: 1px solid transparent;
+  }
+  .nav li a:hover { background: var(--panel-2); color: var(--text); transform: translateX(3px); }
+  .nav li a.active { background: linear-gradient(90deg, rgba(92,200,255,.14), transparent); color: var(--accent); border-color: rgba(92,200,255,.25); }
+  .nav .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--border); flex-shrink: 0; }
+  .nav .dot.done { background: var(--green); box-shadow: 0 0 8px var(--green); }
+
+  .sidebar-foot { margin-top: 26px; font-size: 11px; color: var(--muted); border-top: 1px solid var(--border); padding-top: 16px; }
+  .reset-btn {
+    margin-top: 10px; width: 100%; padding: 8px; border-radius: 9px; cursor: pointer;
+    background: transparent; border: 1px solid var(--border); color: var(--muted); font-size: 12px;
+    transition: all .18s;
+  }
+  .reset-btn:hover { border-color: var(--red); color: var(--red); }
+
+  /* Sections */
+  section { margin-bottom: 64px; scroll-margin-top: 24px; }
+  .hero {
+    background: linear-gradient(135deg, rgba(92,200,255,.08), rgba(167,139,250,.08));
+    border: 1px solid var(--border); border-radius: var(--radius); padding: 32px 34px;
+    margin-bottom: 40px; position: relative; overflow: hidden;
+  }
+  .hero::after {
+    content:''; position:absolute; right:-60px; top:-60px; width:220px; height:220px;
+    background: radial-gradient(circle, rgba(167,139,250,.25), transparent 70%); filter: blur(10px);
+  }
+  .hero h2 { font-size: 30px; margin-bottom: 8px; letter-spacing: -.5px; }
+  .hero .sub { color: var(--muted); max-width: 640px; font-size: 15px; }
+  .badges { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 18px; }
+  .badge { font-size: 12px; padding: 6px 12px; border-radius: 99px; border: 1px solid var(--border); background: var(--panel); color: var(--muted); }
+  .badge b { color: var(--accent); }
+
+  .sec-title { font-size: 22px; margin-bottom: 6px; display: flex; align-items: center; gap: 10px; }
+  .sec-title .pill { font-size: 11px; padding: 3px 9px; border-radius: 99px; font-weight: 700; }
+  .pill.cpp { background: rgba(92,200,255,.15); color: var(--accent); }
+  .pill.c { background: rgba(74,222,128,.15); color: var(--green); }
+  .pill.lvl1 { background: rgba(167,139,250,.15); color: var(--accent-2); }
+  .pill.lvl2 { background: rgba(244,114,182,.15); color: var(--pink); }
+  .sec-sub { color: var(--muted); margin-bottom: 22px; font-size: 14px; }
+
+  .card {
+    background: var(--panel); border: 1px solid var(--border); border-radius: var(--radius);
+    padding: 22px 24px; margin-bottom: 18px; box-shadow: var(--shadow);
+  }
+  .card h3 { font-size: 16px; margin-bottom: 10px; color: var(--text); display:flex; align-items:center; gap:8px; }
+  .card h3 .ic { color: var(--accent); }
+  .card p, .card li { font-size: 14.5px; color: var(--text); }
+  .card ul { padding-left: 20px; margin: 6px 0; }
+  .card li { margin-bottom: 5px; }
+  .muted { color: var(--muted); }
+
+  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+  @media (max-width: 880px){ .grid-2 { grid-template-columns: 1fr; } }
+
+  /* Schedule timeline */
+  .timeline { position: relative; padding-left: 28px; }
+  .timeline::before { content:''; position:absolute; left:8px; top:6px; bottom:6px; width:2px; background: linear-gradient(var(--accent), var(--accent-2)); }
+  .tl-item { position: relative; margin-bottom: 16px; }
+  .tl-item::before { content:''; position:absolute; left:-24px; top:8px; width:12px; height:12px; border-radius:50%; background: var(--bg); border:2px solid var(--accent); }
+  .tl-time { font-size: 12px; color: var(--accent); font-weight: 700; letter-spacing:.4px; }
+  .tl-task { font-size: 14.5px; }
+
+  /* Checklist */
+  .check {
+    display: flex; align-items: flex-start; gap: 12px; padding: 11px 14px; border-radius: 10px;
+    border: 1px solid var(--border); background: var(--panel-2); margin-bottom: 9px; cursor: pointer;
+    transition: all .16s ease; user-select: none;
+  }
+  .check:hover { border-color: var(--accent); transform: translateX(2px); }
+  .check input { display: none; }
+  .check .box {
+    width: 20px; height: 20px; border-radius: 6px; border: 2px solid var(--muted); flex-shrink: 0;
+    margin-top: 2px; display: grid; place-items: center; transition: all .16s ease;
+  }
+  .check input:checked + .box { background: var(--green); border-color: var(--green); }
+  .check input:checked + .box::after { content:'✓'; color: #04121f; font-size: 13px; font-weight: 900; }
+  .check .txt { font-size: 14px; }
+  .check input:checked ~ .txt { color: var(--muted); text-decoration: line-through; }
+
+  /* Code blocks */
+  .code {
+    background: var(--code-bg); border: 1px solid var(--border); border-radius: 10px;
+    padding: 0; margin: 12px 0; overflow: hidden;
+  }
+  .code-head { display:flex; justify-content: space-between; align-items:center; padding: 8px 14px; border-bottom:1px solid var(--border); background: rgba(255,255,255,.02); }
+  .code-head .fname { font-size: 12px; color: var(--muted); font-family: 'SF Mono', Menlo, monospace; }
+  .copy-btn { font-size: 11px; padding: 4px 10px; border-radius: 7px; background: var(--panel-2); border:1px solid var(--border); color: var(--muted); cursor:pointer; transition: all .16s; }
+  .copy-btn:hover { color: var(--accent); border-color: var(--accent); }
+  .code pre { padding: 16px; overflow-x: auto; font-family: 'SF Mono', 'Fira Code', Menlo, Consolas, monospace; font-size: 12.8px; line-height: 1.65; }
+  .code code { color: #c6d3e6; white-space: pre; }
+  .tk-kw { color: #c792ea; }
+  .tk-ty { color: #82aaff; }
+  .tk-str { color: #c3e88d; }
+  .tk-num { color: #f78c6c; }
+  .tk-com { color: #5a6b82; font-style: italic; }
+  .tk-fn { color: #82d2ff; }
+
+  /* Key concept callout */
+  .callout { border-left: 3px solid var(--amber); background: rgba(251,191,36,.06); padding: 12px 16px; border-radius: 0 10px 10px 0; margin: 12px 0; font-size: 14px; }
+  .callout.trap { border-color: var(--red); background: rgba(248,113,113,.06); }
+  .callout.tip { border-color: var(--green); background: rgba(74,222,128,.06); }
+  .callout b { color: var(--text); }
+
+  /* Flashcards */
+  .flash-deck { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 16px; }
+  .flash {
+    perspective: 1200px; height: 170px; cursor: pointer;
+  }
+  .flash-inner { position: relative; width: 100%; height: 100%; transition: transform .55s; transform-style: preserve-3d; }
+  .flash.flipped .flash-inner { transform: rotateY(180deg); }
+  .flash-face {
+    position: absolute; inset: 0; backface-visibility: hidden; border-radius: 12px; padding: 18px;
+    -webkit-backface-visibility: hidden;
+    display: flex; align-items: center; justify-content: center; text-align: center;
+    border: 1px solid var(--border);
+  }
+  .flash-front { background: linear-gradient(135deg, var(--panel), var(--panel-2)); font-weight: 600; font-size: 15px; }
+  .flash-front .hint { position:absolute; bottom: 10px; font-size: 10px; color: var(--muted); font-weight:400; z-index: 2;}
+  .flash-back { background: linear-gradient(135deg, rgba(92,200,255,.12), rgba(167,139,250,.12)); transform: rotateY(180deg); font-size: 13px; color: var(--text); }
+
+  /* Timer widget */
+  .timer-card { display:flex; align-items:center; gap: 18px; flex-wrap: wrap; }
+  .timer-display { font-size: 38px; font-weight: 800; font-variant-numeric: tabular-nums; color: var(--accent); letter-spacing: 1px; }
+  .timer-btns { display:flex; gap: 8px; flex-wrap: wrap; }
+  .tbtn { padding: 9px 16px; border-radius: 9px; border:1px solid var(--border); background: var(--panel-2); color: var(--text); cursor:pointer; font-size: 13px; font-weight:600; transition: all .16s; }
+  .tbtn:hover { border-color: var(--accent); }
+  .tbtn.go { background: linear-gradient(135deg, var(--accent), var(--accent-2)); color:#04121f; border:none; }
+  .preset { font-size:12px; }
+
+  .footer-note { text-align:center; color: var(--muted); font-size: 12px; margin-top: 40px; }
+
+  /* Quiz Mode */
+  .quiz-bar { display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:12px; margin-bottom:16px; }
+  .quiz-score { font-size:14px; color:var(--muted); }
+  .quiz-score b { color:var(--accent); font-size:18px; }
+  .quiz-q { font-size:16px; font-weight:600; margin-bottom:14px; }
+  .quiz-q .qnum { color:var(--accent); font-weight:800; margin-right:8px; }
+  .quiz-opt {
+    display:block; width:100%; text-align:left; padding:12px 16px; border-radius:10px;
+    border:1px solid var(--border); background:var(--panel-2); color:var(--text);
+    font-size:14px; cursor:pointer; margin-bottom:10px; transition:all .16s ease;
+  }
+  .quiz-opt:hover:not(:disabled){ border-color:var(--accent); transform:translateX(2px); }
+  .quiz-opt:disabled { cursor:default; }
+  .quiz-opt.correct { background:rgba(74,222,128,.14); border-color:var(--green); color:var(--text); }
+  .quiz-opt.wrong   { background:rgba(248,113,113,.14); border-color:var(--red); }
+  .quiz-opt .mark { float:right; font-weight:900; }
+  .quiz-nav { display:flex; gap:8px; flex-wrap:wrap; margin-top:6px; }
+  .quiz-result { text-align:center; padding:14px 0; }
+  .quiz-result .big { font-size:42px; font-weight:800; color:var(--accent); }
+
+  /* Code Diff Trainer */
+  .diff-bar { display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:12px; margin-bottom:14px; }
+  .diff-title { font-size:15px; font-weight:600; }
+  .diff-title .lang { font-size:11px; padding:3px 9px; border-radius:99px; margin-left:8px; background:rgba(92,200,255,.15); color:var(--accent); font-weight:700; }
+  .diff-hint { font-size:12.5px; color:var(--muted); margin-bottom:10px; }
+  .diff-code { background:var(--code-bg); border:1px solid var(--border); border-radius:10px; padding:10px 0; overflow-x:auto; }
+  .dl {
+    display:flex; gap:12px; padding:3px 14px; font-family:'SF Mono', Menlo, Consolas, monospace;
+    font-size:12.8px; line-height:1.6; cursor:pointer; border-left:3px solid transparent;
+    white-space:pre; transition:background .14s ease;
+  }
+  .dl:hover:not(.locked){ background:rgba(92,200,255,.07); }
+  .dl.locked { cursor:default; }
+  .dl .ln { color:var(--muted); width:22px; text-align:right; flex-shrink:0; user-select:none; }
+  .dl .ct { color:#c6d3e6; }
+  .dl.correct { background:rgba(74,222,128,.12); border-left-color:var(--green); }
+  .dl.wrong   { background:rgba(248,113,113,.16); border-left-color:var(--red); }
+  .diff-fix { max-height:0; opacity:0; overflow:hidden; transition:max-height .4s ease, opacity .4s ease; margin-top:0; }
+  .diff-fix.show { max-height:320px; opacity:1; margin-top:14px; }
+  .diff-fix .fix-line {
+    font-family:'SF Mono', Menlo, Consolas, monospace; font-size:12.8px; white-space:pre;
+    background:rgba(74,222,128,.1); border-left:3px solid var(--green); padding:8px 14px; border-radius:0 8px 8px 0;
+    color:#c3e88d; overflow-x:auto;
+  }
+  .diff-attempts { font-size:12px; color:var(--muted); }
+
+  /* Cheat Sheet */
+  .cheat-grid { display:grid; grid-template-columns:1fr 1fr; gap:16px; }
+  @media (max-width:880px){ .cheat-grid { grid-template-columns:1fr; } }
+  .cheat { background:var(--panel); border:1px solid var(--border); border-radius:var(--radius); padding:16px 18px; }
+  .cheat h4 { font-size:14px; margin-bottom:8px; display:flex; align-items:center; gap:8px; }
+  .cheat h4 .tag { font-size:10px; padding:2px 7px; border-radius:99px; font-weight:700; }
+  .cheat ul { list-style:none; }
+  .cheat li { font-size:12.6px; color:var(--text); padding:3px 0; border-bottom:1px dashed var(--border); }
+  .cheat li:last-child { border-bottom:none; }
+  .cheat code { font-family:'SF Mono', Menlo, monospace; font-size:11.8px; color:var(--accent); background:rgba(92,200,255,.08); padding:1px 4px; border-radius:4px; }
+  .print-btn { padding:9px 16px; border-radius:9px; border:none; background:linear-gradient(135deg, var(--accent), var(--accent-2)); color:#04121f; cursor:pointer; font-size:13px; font-weight:600; }
+
+  @media print {
+    .sidebar, .quiz-nav, .diff-bar .tbtn, .print-btn, .timer-btns { display:none !important; }
+    body { background:#fff !important; color:#000 !important; }
+    section:not(#cheatsheet){ display:none !important; }
+    .cheat { border-color:#ccc; background:#fff; box-shadow:none; }
+    .cheat code { color:#0a58ca; background:#eef; }
+    .cheat li { color:#000; border-color:#ddd; }
+    .main { padding:0; max-width:100%; }
+  }
+
+  @media (max-width: 760px){
+    .app { flex-direction: column; }
+    .sidebar { width: 100%; height: auto; position: static; }
+    .main { padding: 24px; }
+  }
+</style>
+</head>
+<body>
+<div class="app">
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <div class="brand">
+      <div class="logo">05</div>
+      <div>
+        <h1>Exam Rank 05</h1>
+        <p>2-Day Mastery Plan</p>
+      </div>
+    </div>
+
+    <div class="progress-wrap">
+      <div class="label"><span>Overall progress</span><span id="pct">0%</span></div>
+      <div class="progress-track"><div class="progress-fill" id="pfill"></div></div>
+    </div>
+
+    <ul class="nav" id="nav">
+      <li><a data-target="overview"><span class="dot" data-sec="overview"></span> Overview</a></li>
+      <li><a data-target="schedule"><span class="dot" data-sec="schedule"></span> 2-Day Schedule</a></li>
+      <li><a data-target="vect2"><span class="dot" data-sec="vect2"></span> vect2</a></li>
+      <li><a data-target="bigint"><span class="dot" data-sec="bigint"></span> bigint</a></li>
+      <li><a data-target="polyset"><span class="dot" data-sec="polyset"></span> polyset</a></li>
+      <li><a data-target="bsq"><span class="dot" data-sec="bsq"></span> bsq</a></li>
+      <li><a data-target="life"><span class="dot" data-sec="life"></span> life</a></li>
+      <li><a data-target="flashcards"><span class="dot" data-sec="flashcards"></span> Flashcards</a></li>
+      <li><a data-target="quiz"><span class="dot" data-sec="quiz"></span> Quiz Mode</a></li>
+      <li><a data-target="difftrainer"><span class="dot" data-sec="difftrainer"></span> Code Diff Trainer</a></li>
+      <li><a data-target="cheatsheet"><span class="dot" data-sec="cheatsheet"></span> Cheat Sheet</a></li>
+      <li><a data-target="timer"><span class="dot" data-sec="timer"></span> Practice Timer</a></li>
+    </ul>
+
+    <div class="sidebar-foot">
+      Your progress is saved automatically in this browser.
+      <button class="reset-btn" id="resetBtn">↺ Reset all progress</button>
+    </div>
+  </aside>
+
+  <!-- MAIN -->
+  <main class="main">
+
+    <!-- OVERVIEW -->
+    <section id="overview">
+      <div class="hero">
+        <h2>🧠 Exam Rank 05 — 2-Day Mastery Plan</h2>
+        <p class="sub">A focused, interactive plan to <b>fully understand</b>, <b>solve</b>, and <b>memorize</b> all five exercises. Day 1 = the C++ OOP trio. Day 2 = the C algorithm pair + full review under timer. Check off tasks as you go — progress is saved.</p>
+        <div class="badges">
+          <span class="badge"><b>5</b> exercises</span>
+          <span class="badge"><b>Lvl 1:</b> vect2 · bigint · polyset</span>
+          <span class="badge"><b>Lvl 2:</b> bsq · life</span>
+          <span class="badge"><b>C++</b> &amp; <b>C</b></span>
+        </div>
+      </div>
+
+      <h2 class="sec-title">How to use this plan</h2>
+      <div class="grid-2">
+        <div class="card">
+          <h3><span class="ic">①</span> Understand</h3>
+          <p class="muted">Read the concept + key patterns for each exercise. Don't just read code — explain it out loud as if teaching someone.</p>
+        </div>
+        <div class="card">
+          <h3><span class="ic">②</span> Reproduce</h3>
+          <p class="muted">Close the reference and rewrite the solution from a blank file. The exam tests recall under pressure, not reading.</p>
+        </div>
+        <div class="card">
+          <h3><span class="ic">③</span> Memorize</h3>
+          <p class="muted">Use the <a href="#flashcards" style="color:var(--accent)">flashcards</a> for the tricky signatures and traps you keep forgetting.</p>
+        </div>
+        <div class="card">
+          <h3><span class="ic">④</span> Time it</h3>
+          <p class="muted">Use the <a href="#timer" style="color:var(--accent)">practice timer</a>. Aim to type each Lvl 1 from scratch in &lt; 25 min, Lvl 2 in &lt; 45 min.</p>
+        </div>
+      </div>
+
+      <div class="callout tip"><b>Golden rule:</b> The exam gives you a <code>main.cpp</code> that must compile and run. Always compile early and often — <code>c++ -Wall -Wextra -Werror *.cpp &amp;&amp; ./a.out</code>.</div>
+    </section>
+
+    <!-- SCHEDULE -->
+    <section id="schedule">
+      <h2 class="sec-title">📅 The 2-Day Schedule</h2>
+      <p class="sec-sub">Roughly 6–7 focused hours per day. Adjust to your rhythm — the order matters more than exact times (easy → hard, build confidence early).</p>
+
+      <div class="grid-2">
+        <div class="card">
+          <h3>🌅 Day 1 — C++ OOP Trio</h3>
+          <div class="timeline">
+            <div class="tl-item"><div class="tl-time">09:00 – 10:30</div><div class="tl-task"><b>vect2</b> — operator overloading warm-up. Understand + rewrite twice.</div></div>
+            <div class="tl-item"><div class="tl-time">10:45 – 12:30</div><div class="tl-task"><b>bigint</b> — vector&lt;int&gt; arithmetic, digit shifts, comparisons.</div></div>
+            <div class="tl-item"><div class="tl-time">13:30 – 16:00</div><div class="tl-task"><b>polyset</b> — the hard one. Inheritance, virtual, canonical form, set wrapper.</div></div>
+            <div class="tl-item"><div class="tl-time">16:15 – 17:30</div><div class="tl-task">Re-do all 3 <b>from blank files</b> against the provided mains. Review flashcards.</div></div>
+          </div>
+          <div class="checklist" data-group="day1">
+            <label class="check"><input type="checkbox" data-id="d1-vect2"><span class="box"></span><span class="txt">Finished vect2 (understood + rewrote)</span></label>
+            <label class="check"><input type="checkbox" data-id="d1-bigint"><span class="box"></span><span class="txt">Finished bigint</span></label>
+            <label class="check"><input type="checkbox" data-id="d1-polyset"><span class="box"></span><span class="txt">Finished polyset</span></label>
+            <label class="check"><input type="checkbox" data-id="d1-redo"><span class="box"></span><span class="txt">Re-did all 3 from scratch</span></label>
+          </div>
+        </div>
+
+        <div class="card">
+          <h3>🌆 Day 2 — C Algorithms + Review</h3>
+          <div class="timeline">
+            <div class="tl-item"><div class="tl-time">09:00 – 11:00</div><div class="tl-task"><b>bsq</b> — parsing + DP for biggest square. Master the validation rules.</div></div>
+            <div class="tl-item"><div class="tl-time">11:15 – 12:45</div><div class="tl-task"><b>life</b> — pen drawing + Game of Life double-buffer simulation.</div></div>
+            <div class="tl-item"><div class="tl-time">13:45 – 15:30</div><div class="tl-task"><b>Timed mock:</b> pick 1 Lvl 1 + 1 Lvl 2 at random, solve under timer.</div></div>
+            <div class="tl-item"><div class="tl-time">15:45 – 17:00</div><div class="tl-task">Final flashcard sweep. Re-write whatever felt shaky. Sleep well.</div></div>
+          </div>
+          <div class="checklist" data-group="day2">
+            <label class="check"><input type="checkbox" data-id="d2-bsq"><span class="box"></span><span class="txt">Finished bsq (understood + rewrote)</span></label>
+            <label class="check"><input type="checkbox" data-id="d2-life"><span class="box"></span><span class="txt">Finished life</span></label>
+            <label class="check"><input type="checkbox" data-id="d2-mock"><span class="box"></span><span class="txt">Completed timed mock exam</span></label>
+            <label class="check"><input type="checkbox" data-id="d2-final"><span class="box"></span><span class="txt">Final review + flashcards</span></label>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- VECT2 -->
+    <section id="vect2">
+      <h2 class="sec-title">vect2 <span class="pill cpp">C++</span> <span class="pill lvl1">Lvl 1</span></h2>
+      <p class="sec-sub">A 2D integer vector. Pure <b>operator overloading</b> practice — the gentlest exercise, do it first to warm up.</p>
+
+      <div class="card">
+        <h3><span class="ic">🎯</span> The concept</h3>
+        <p>Store two ints <code>x, y</code>. You must support <code>+</code>, <code>-</code>, scalar <code>*</code> (both <code>v*2</code> and <code>2*v</code>), <code>[]</code> indexing (read &amp; write), comparisons, and printing as <code>{x, y}</code>.</p>
+        <ul>
+          <li><b>Why two <code>operator[]</code>?</b> A non-const one returns <code>int&amp;</code> (so <code>v[1]=12</code> works) and a const one returns <code>int</code> (so a <code>const vect2</code> can still be read).</li>
+          <li><b>Why <code>friend</code> for <code>2 * v</code>?</b> The left operand is an <code>int</code>, not a <code>vect2</code>, so it can't be a member — make it a free <code>friend</code> function.</li>
+          <li><b><code>&lt;&lt;</code> is always a friend</b> free function returning <code>std::ostream&amp;</code> so you can chain <code>cout &lt;&lt; v &lt;&lt; endl</code>.</li>
+        </ul>
+      </div>
+
+      <div class="grid-2">
+        <div class="card">
+          <h3><span class="ic">🧩</span> Memory hooks</h3>
+          <ul>
+            <li><b>Pre vs post ++:</b> pre returns <code>*this</code> (a ref); post takes a dummy <code>int</code>, saves <code>tmp</code>, mutates, returns <code>tmp</code> (by value).</li>
+            <li><b>Compound (<code>+=</code>) returns <code>vect2&amp;</code></b>; binary (<code>+</code>) returns <code>vect2</code> by value and is <code>const</code>.</li>
+            <li>No heap, no destructor needed — but still write the canonical 4 (default, copy, assign) for habit.</li>
+          </ul>
+        </div>
+        <div class="card">
+          <h3><span class="ic">⚠️</span> Traps</h3>
+          <ul>
+            <li>Forgetting <code>const</code> on binary ops &amp; <code>operator[] const</code> → const objects won't compile.</li>
+            <li>Returning <code>vect2</code> instead of <code>vect2&amp;</code> from <code>+=</code> breaks <code>v2 += v2 += v3</code> chaining.</li>
+            <li>Print must be <i>exactly</i> <code>{x, y}</code> (note the space after comma).</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="code">
+        <div class="code-head"><span class="fname">vect2.hpp — the signatures to memorize</span><button class="copy-btn">Copy</button></div>
+        <pre><code><span class="tk-kw">class</span> <span class="tk-ty">vect2</span> {
+  <span class="tk-kw">int</span> x, y;
+<span class="tk-kw">public</span>:
+  <span class="tk-fn">vect2</span>();
+  <span class="tk-fn">vect2</span>(<span class="tk-kw">int</span> x, <span class="tk-kw">int</span> y);
+  <span class="tk-fn">vect2</span>(<span class="tk-kw">const</span> vect2&amp; o);
+  vect2&amp; <span class="tk-fn">operator=</span>(<span class="tk-kw">const</span> vect2&amp; o);
+
+  <span class="tk-kw">int</span>&amp; <span class="tk-fn">operator[]</span>(<span class="tk-kw">int</span> i);          <span class="tk-com">// write</span>
+  <span class="tk-kw">int</span>  <span class="tk-fn">operator[]</span>(<span class="tk-kw">int</span> i) <span class="tk-kw">const</span>;    <span class="tk-com">// read</span>
+
+  vect2&amp; <span class="tk-fn">operator++</span>();              <span class="tk-com">// pre</span>
+  vect2  <span class="tk-fn">operator++</span>(<span class="tk-kw">int</span>);           <span class="tk-com">// post</span>
+  vect2&amp; <span class="tk-fn">operator+=</span>(<span class="tk-kw">const</span> vect2&amp; v);
+  vect2  <span class="tk-fn">operator+</span>(<span class="tk-kw">const</span> vect2&amp; v) <span class="tk-kw">const</span>;
+  vect2  <span class="tk-fn">operator*</span>(<span class="tk-kw">int</span> s) <span class="tk-kw">const</span>;
+  <span class="tk-kw">friend</span> vect2 <span class="tk-fn">operator*</span>(<span class="tk-kw">int</span> s, <span class="tk-kw">const</span> vect2&amp; v);
+  <span class="tk-kw">bool</span> <span class="tk-fn">operator==</span>(<span class="tk-kw">const</span> vect2&amp; v) <span class="tk-kw">const</span>;
+  <span class="tk-kw">friend</span> std::ostream&amp; <span class="tk-fn">operator&lt;&lt;</span>(std::ostream&amp;, <span class="tk-kw">const</span> vect2&amp;);
+};</code></pre>
+      </div>
+      <div class="code">
+        <div class="code-head"><span class="fname">vect2.cpp — the patterns</span><button class="copy-btn">Copy</button></div>
+        <pre><code><span class="tk-com">// post-increment: save, mutate, return old</span>
+vect2 vect2::<span class="tk-fn">operator++</span>(<span class="tk-kw">int</span>) {
+  vect2 tmp = *<span class="tk-kw">this</span>;
+  x++; y++;
+  <span class="tk-kw">return</span> tmp;
+}
+<span class="tk-com">// compound returns ref for chaining</span>
+vect2&amp; vect2::<span class="tk-fn">operator+=</span>(<span class="tk-kw">const</span> vect2&amp; v) {
+  x += v.x; y += v.y; <span class="tk-kw">return</span> *<span class="tk-kw">this</span>;
+}
+<span class="tk-com">// 2 * v  -> free friend function</span>
+vect2 <span class="tk-fn">operator*</span>(<span class="tk-kw">int</span> s, <span class="tk-kw">const</span> vect2&amp; v) {
+  <span class="tk-kw">return</span> vect2(v[<span class="tk-num">0</span>] * s, v[<span class="tk-num">1</span>] * s);
+}
+std::ostream&amp; <span class="tk-fn">operator&lt;&lt;</span>(std::ostream&amp; os, <span class="tk-kw">const</span> vect2&amp; v) {
+  os &lt;&lt; <span class="tk-str">"{"</span> &lt;&lt; v[<span class="tk-num">0</span>] &lt;&lt; <span class="tk-str">", "</span> &lt;&lt; v[<span class="tk-num">1</span>] &lt;&lt; <span class="tk-str">"}"</span>;
+  <span class="tk-kw">return</span> os;
+}</code></pre>
+      </div>
+    </section>
+
+    <!-- BIGINT -->
+    <section id="bigint">
+      <h2 class="sec-title">bigint <span class="pill cpp">C++</span> <span class="pill lvl1">Lvl 1</span></h2>
+      <p class="sec-sub">Arbitrary-precision <b>unsigned</b> integer. Store digits in a <code>std::vector&lt;int&gt;</code> — easiest to manage.</p>
+
+      <div class="card">
+        <h3><span class="ic">🎯</span> The concept</h3>
+        <p>Store digits <b>least-significant first</b> (reversed). This makes addition &amp; left-shift trivial. Required: build from <code>unsigned long long</code> and <code>std::string</code>, addition, comparisons, and digit-shift (<code>&lt;&lt;</code> multiplies by 10ⁿ, <code>&gt;&gt;</code> divides). Print with no leading zeros.</p>
+        <ul>
+          <li><b>Why store reversed?</b> <code>digits[0]</code> = units. Adding aligns naturally; shifting left = <code>insert</code> zeros at front; printing iterates back-to-front.</li>
+          <li><b><code>trim()</code></b> removes trailing zeros (which are leading zeros in real order) but keeps at least one digit.</li>
+        </ul>
+      </div>
+
+      <div class="grid-2">
+        <div class="card">
+          <h3><span class="ic">🧩</span> Memory hooks</h3>
+          <ul>
+            <li><b>Addition:</b> loop <code>while (i &lt; size || carry)</code>, <code>sum = carry (+ digits…)</code>, push <code>sum%10</code>, <code>carry = sum/10</code>.</li>
+            <li><b><code>&lt;&lt; n</code></b> = <code>insert(begin(), n, 0)</code> (but return 0 if value is 0). <b><code>&gt;&gt; n</code></b> = <code>erase</code> first n, then trim.</li>
+            <li><b>Comparison:</b> after trim, longer vector = bigger; if equal length, compare digit-by-digit from the <b>most-significant end</b> (back to front).</li>
+            <li>Provide both <code>int</code> and <code>bigint</code> overloads of the shifts — the main uses <code>(d &gt;&gt;= (const bigint)2)</code>.</li>
+          </ul>
+        </div>
+        <div class="card">
+          <h3><span class="ic">⚠️</span> Traps</h3>
+          <ul>
+            <li>Leading zeros in output → always <code>trim()</code> after constructing/adding.</li>
+            <li>The <code>bigint</code>-arg shifts need a private <code>to_int()</code> helper to convert.</li>
+            <li><code>==</code> compares sizes first; build everything else (<code>!= &lt;= &gt;=</code>) on top of <code>&lt;</code>, <code>&gt;</code>, <code>==</code>.</li>
+            <li>Don't forget the <b>full canonical form</b> incl. destructor (vector handles memory, but write <code>~bigint(){}</code>).</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="code">
+        <div class="code-head"><span class="fname">bigint.cpp — addition (the core)</span><button class="copy-btn">Copy</button></div>
+        <pre><code>bigint bigint::<span class="tk-fn">operator+</span>(<span class="tk-kw">const</span> bigint&amp; b) <span class="tk-kw">const</span> {
+  bigint res; res.digits.<span class="tk-fn">clear</span>();
+  <span class="tk-kw">int</span> carry = <span class="tk-num">0</span>;
+  size_t n = std::<span class="tk-fn">max</span>(digits.<span class="tk-fn">size</span>(), b.digits.<span class="tk-fn">size</span>());
+  <span class="tk-kw">for</span> (size_t i = <span class="tk-num">0</span>; i &lt; n || carry; i++) {
+    <span class="tk-kw">int</span> sum = carry;
+    <span class="tk-kw">if</span> (i &lt; digits.<span class="tk-fn">size</span>())   sum += digits[i];
+    <span class="tk-kw">if</span> (i &lt; b.digits.<span class="tk-fn">size</span>()) sum += b.digits[i];
+    res.digits.<span class="tk-fn">push_back</span>(sum % <span class="tk-num">10</span>);
+    carry = sum / <span class="tk-num">10</span>;
+  }
+  res.<span class="tk-fn">trim</span>();
+  <span class="tk-kw">return</span> res;
+}</code></pre>
+      </div>
+      <div class="code">
+        <div class="code-head"><span class="fname">bigint.cpp — shifts, compare, print</span><button class="copy-btn">Copy</button></div>
+        <pre><code><span class="tk-com">// &lt;&lt; shifts digits left (multiply by 10^shift)</span>
+bigint bigint::<span class="tk-fn">operator&lt;&lt;</span>(<span class="tk-kw">int</span> shift) <span class="tk-kw">const</span> {
+  <span class="tk-kw">if</span> (*<span class="tk-kw">this</span> == bigint(<span class="tk-num">0</span>)) <span class="tk-kw">return</span> bigint(<span class="tk-num">0</span>);
+  bigint res = *<span class="tk-kw">this</span>;
+  res.digits.<span class="tk-fn">insert</span>(res.digits.<span class="tk-fn">begin</span>(), shift, <span class="tk-num">0</span>);
+  <span class="tk-kw">return</span> res;
+}
+<span class="tk-kw">bool</span> bigint::<span class="tk-fn">operator&lt;</span>(<span class="tk-kw">const</span> bigint&amp; b) <span class="tk-kw">const</span> {
+  <span class="tk-kw">if</span> (digits.<span class="tk-fn">size</span>() != b.digits.<span class="tk-fn">size</span>())
+    <span class="tk-kw">return</span> digits.<span class="tk-fn">size</span>() &lt; b.digits.<span class="tk-fn">size</span>();
+  <span class="tk-kw">for</span> (<span class="tk-kw">int</span> i = digits.<span class="tk-fn">size</span>()-<span class="tk-num">1</span>; i &gt;= <span class="tk-num">0</span>; i--)
+    <span class="tk-kw">if</span> (digits[i] != b.digits[i])
+      <span class="tk-kw">return</span> digits[i] &lt; b.digits[i];
+  <span class="tk-kw">return</span> <span class="tk-kw">false</span>;
+}
+std::ostream&amp; <span class="tk-fn">operator&lt;&lt;</span>(std::ostream&amp; os, <span class="tk-kw">const</span> bigint&amp; b) {
+  <span class="tk-kw">for</span> (<span class="tk-kw">int</span> i = b.digits.<span class="tk-fn">size</span>()-<span class="tk-num">1</span>; i &gt;= <span class="tk-num">0</span>; i--)
+    os &lt;&lt; b.digits[i];
+  <span class="tk-kw">return</span> os;
+}</code></pre>
+      </div>
+    </section>
+
+    <!-- POLYSET -->
+    <section id="polyset">
+      <h2 class="sec-title">polyset <span class="pill cpp">C++</span> <span class="pill lvl1">Lvl 1</span></h2>
+      <p class="sec-sub">The hardest Lvl 1. Pure <b>polymorphism + inheritance + canonical form</b>. They give you <code>bag</code>, <code>searchable_bag</code>, <code>array_bag</code>, <code>tree_bag</code>. You write the searchable subclasses + a <code>set</code> wrapper.</p>
+
+      <div class="card">
+        <h3><span class="ic">🎯</span> The concept</h3>
+        <ul>
+          <li><b><code>bag</code></b> = abstract base (insert / print / clear). <b><code>searchable_bag</code></b> = abstract, adds <code>has(int)</code>. Both use <code>virtual public</code> inheritance from <code>bag</code> → this is the <b>diamond</b> setup.</li>
+          <li><b>Part 1:</b> <code>searchable_array_bag</code> inherits <code>array_bag</code> + <code>searchable_bag</code> and implements <code>has()</code>. Same for the tree version (BST search!).</li>
+          <li><b>Part 2:</b> <code>set</code> wraps a <code>searchable_bag&amp;</code> reference and only inserts if <code>!has(value)</code> → guarantees uniqueness.</li>
+        </ul>
+        <div class="callout"><b>The diamond:</b> Because <code>array_bag</code> and <code>searchable_bag</code> both inherit <code>bag</code>, the <code>virtual public bag</code> keyword on each is what prevents two copies of <code>bag</code>. Memorize the inheritance lines exactly.</div>
+      </div>
+
+      <div class="grid-2">
+        <div class="card">
+          <h3><span class="ic">🧩</span> Memory hooks</h3>
+          <ul>
+            <li><b>Searchable subclass canonical form:</b> the copy ctor forwards to the base: <code>: array_bag(copy)</code>; assignment calls <code>array_bag::operator=(copy)</code> after the self-check.</li>
+            <li><b>array has():</b> linear loop over <code>data[i]</code>. <b>tree has():</b> BST walk — go left if <code>value &lt; node</code>, right otherwise.</li>
+            <li><b><code>set</code> stores a reference</b> <code>searchable_bag&amp; bag;</code> → no copy assignment possible (a reference can't be reseated) → leave <code>operator=</code> out / commented.</li>
+          </ul>
+        </div>
+        <div class="card">
+          <h3><span class="ic">⚠️</span> Traps</h3>
+          <ul>
+            <li>Forgetting <code>virtual public bag</code> → diamond ambiguity, won't compile.</li>
+            <li>Forgetting <code>const</code> on <code>has()</code> and <code>print()</code> → the main calls them on a <code>const</code> object.</li>
+            <li>In <code>set</code>, the body of insert must check membership <i>before</i> inserting — that's the whole point.</li>
+            <li>The protected members (<code>data/size</code>, <code>tree</code>) are accessible from your subclass — use them directly in <code>has()</code>.</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="code">
+        <div class="code-head"><span class="fname">searchable_array_bag.* — inheritance + has()</span><button class="copy-btn">Copy</button></div>
+        <pre><code><span class="tk-kw">class</span> <span class="tk-ty">searchable_array_bag</span>
+  : <span class="tk-kw">public</span> array_bag, <span class="tk-kw">public</span> searchable_bag {
+<span class="tk-kw">public</span>:
+  <span class="tk-fn">searchable_array_bag</span>();
+  <span class="tk-fn">searchable_array_bag</span>(<span class="tk-kw">const</span> searchable_array_bag&amp; c);
+  searchable_array_bag&amp; <span class="tk-fn">operator=</span>(<span class="tk-kw">const</span> searchable_array_bag&amp; c);
+  ~<span class="tk-fn">searchable_array_bag</span>();
+  <span class="tk-kw">bool</span> <span class="tk-fn">has</span>(<span class="tk-kw">int</span> value) <span class="tk-kw">const</span>;
+};
+<span class="tk-com">// .cpp</span>
+<span class="tk-fn">searchable_array_bag</span>(<span class="tk-kw">const</span> searchable_array_bag&amp; c)
+  : <span class="tk-fn">array_bag</span>(c) {}
+searchable_array_bag&amp; <span class="tk-fn">operator=</span>(<span class="tk-kw">const</span> searchable_array_bag&amp; c) {
+  <span class="tk-kw">if</span> (<span class="tk-kw">this</span> != &amp;c) array_bag::<span class="tk-fn">operator=</span>(c);
+  <span class="tk-kw">return</span> *<span class="tk-kw">this</span>;
+}
+<span class="tk-kw">bool</span> <span class="tk-fn">has</span>(<span class="tk-kw">int</span> value) <span class="tk-kw">const</span> {
+  <span class="tk-kw">for</span> (<span class="tk-kw">int</span> i = <span class="tk-num">0</span>; i &lt; size; i++)
+    <span class="tk-kw">if</span> (data[i] == value) <span class="tk-kw">return</span> <span class="tk-kw">true</span>;
+  <span class="tk-kw">return</span> <span class="tk-kw">false</span>;
+}</code></pre>
+      </div>
+      <div class="code">
+        <div class="code-head"><span class="fname">searchable_tree_bag has() + set wrapper</span><button class="copy-btn">Copy</button></div>
+        <pre><code><span class="tk-kw">bool</span> searchable_tree_bag::<span class="tk-fn">has</span>(<span class="tk-kw">int</span> value) <span class="tk-kw">const</span> {
+  node* cur = tree;
+  <span class="tk-kw">while</span> (cur) {
+    <span class="tk-kw">if</span> (cur-&gt;value == value) <span class="tk-kw">return</span> <span class="tk-kw">true</span>;
+    <span class="tk-kw">else if</span> (cur-&gt;value &gt; value) cur = cur-&gt;l;
+    <span class="tk-kw">else</span> cur = cur-&gt;r;
+  }
+  <span class="tk-kw">return</span> <span class="tk-kw">false</span>;
+}
+<span class="tk-com">// set.hpp: stores a REFERENCE</span>
+<span class="tk-kw">class</span> <span class="tk-ty">set</span> {
+  searchable_bag&amp; bag;
+<span class="tk-kw">public</span>:
+  <span class="tk-fn">set</span>(searchable_bag&amp; b) : bag(b) {}
+  <span class="tk-kw">void</span> <span class="tk-fn">insert</span>(<span class="tk-kw">int</span> v) { <span class="tk-kw">if</span> (!bag.<span class="tk-fn">has</span>(v)) bag.<span class="tk-fn">insert</span>(v); }
+  <span class="tk-kw">bool</span> <span class="tk-fn">has</span>(<span class="tk-kw">int</span> v) <span class="tk-kw">const</span> { <span class="tk-kw">return</span> bag.<span class="tk-fn">has</span>(v); }
+};</code></pre>
+      </div>
+    </section>
+
+    <!-- BSQ -->
+    <section id="bsq">
+      <h2 class="sec-title">bsq <span class="pill c">C</span> <span class="pill lvl2">Lvl 2</span></h2>
+      <p class="sec-sub">Biggest Square. <b>File parsing + validation + dynamic programming.</b> The DP is short; <b>most of your time is correct parsing &amp; validation</b>.</p>
+
+      <div class="card">
+        <h3><span class="ic">🎯</span> The concept</h3>
+        <ul>
+          <li><b>First line</b> = <code>[number of rows][empty char][obstacle char][full char]</code>. Read it, validate it. Last 3 chars are the three symbols (must be distinct); everything before is the row count (must be all digits, &gt; 0).</li>
+          <li><b>Map lines:</b> all must be the same length, end in <code>\n</code>, contain only empty/obstacle chars. Reject extra trailing lines.</li>
+          <li><b>DP recurrence:</b> for each non-obstacle cell, <code>dp[i][j] = 1 + min(up, left, diag)</code>; obstacle → 0; first row/col → 1.</li>
+          <li>Track the max &amp; its bottom-right corner. Ties → keep the topmost then leftmost square. Then fill that square with the full char and print.</li>
+        </ul>
+        <div class="callout trap"><b>Any failure</b> in validation → print exactly <code>Error: invalid map\n</code> to stdout. Allowed funcs only: <code>malloc, calloc, realloc, free, fopen, fclose, getline, fscanf, fputs, fprintf, printf</code>.</div>
+      </div>
+
+      <div class="grid-2">
+        <div class="card">
+          <h3><span class="ic">🧩</span> Memory hooks</h3>
+          <ul>
+            <li><b>min3(up,left,diag)</b> is the whole algorithm. Flatten the dp to a 1D array <code>dp[i*C + j]</code> to avoid VLA hassles.</li>
+            <li><b>Tie-break:</b> compute each square's top-left as <code>corner - size + 1</code> and compare (top first, then left).</li>
+            <li>Read first line with <code>getline</code>, strip the trailing <code>\n</code>, then peel the 3 symbol chars off the end.</li>
+            <li>No args → read <code>stdin</code>; one arg → <code>fopen</code> it.</li>
+          </ul>
+        </div>
+        <div class="card">
+          <h3><span class="ic">⚠️</span> Traps</h3>
+          <ul>
+            <li>Lines of differing length = invalid. Track <code>cols</code> from first map line, compare every line.</li>
+            <li>Three symbols must be pairwise distinct; first line must have ≥1 digit before them.</li>
+            <li>An empty map / 0 rows = invalid. A char not in the alphabet = invalid.</li>
+            <li>Don't forget to free everything (the map rows, the dp, the getline buffer).</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="code">
+        <div class="code-head"><span class="fname">bsq.c — the DP core</span><button class="copy-btn">Copy</button></div>
+        <pre><code><span class="tk-kw">for</span> (<span class="tk-kw">int</span> i = <span class="tk-num">0</span>; i &lt; R; i++)
+ <span class="tk-kw">for</span> (<span class="tk-kw">int</span> j = <span class="tk-num">0</span>; j &lt; C; j++) {
+   <span class="tk-kw">int</span> idx = i * C + j;
+   <span class="tk-kw">if</span> (map[i][j] == obst) dp[idx] = <span class="tk-num">0</span>;
+   <span class="tk-kw">else if</span> (i == <span class="tk-num">0</span> || j == <span class="tk-num">0</span>) dp[idx] = <span class="tk-num">1</span>;
+   <span class="tk-kw">else</span> {
+     <span class="tk-kw">int</span> up   = dp[(i-<span class="tk-num">1</span>)*C + j];
+     <span class="tk-kw">int</span> left = dp[i*C + (j-<span class="tk-num">1</span>)];
+     <span class="tk-kw">int</span> diag = dp[(i-<span class="tk-num">1</span>)*C + (j-<span class="tk-num">1</span>)];
+     dp[idx] = <span class="tk-num">1</span> + <span class="tk-fn">min3</span>(up, left, diag);
+   }
+   <span class="tk-kw">if</span> (dp[idx] &gt; best) { best = dp[idx]; bi = i; bj = j; }
+ }
+<span class="tk-com">// fill: top = bi-best+1, left = bj-best+1 -&gt; set full_ch</span></code></pre>
+      </div>
+    </section>
+
+    <!-- LIFE -->
+    <section id="life">
+      <h2 class="sec-title">life <span class="pill c">C</span> <span class="pill lvl2">Lvl 2</span></h2>
+      <p class="sec-sub">Conway's Game of Life with a <b>pen-drawing</b> input phase. Two sub-problems: parse pen commands, then simulate N generations.</p>
+
+      <div class="card">
+        <h3><span class="ic">🎯</span> The concept</h3>
+        <ul>
+          <li><b>Args:</b> <code>./life width height iterations</code>. A pen starts top-left. Commands: <code>w/a/s/d</code> move (clamped to board), <code>x</code> toggles drawing. While drawing, mark the current cell alive.</li>
+          <li><b>After EOF</b>, run the Game of Life for <code>iterations</code> generations and print: <code>'O'</code> = alive, space = dead, newline per row.</li>
+          <li><b>Rules:</b> live cell with 2 or 3 neighbors survives; dead cell with exactly 3 neighbors is born; else dead.</li>
+        </ul>
+        <div class="callout"><b>Allowed funcs:</b> <code>atoi, read, putchar, malloc, calloc, realloc, free</code>. So input is <code>read(0, &amp;c, 1)</code> char-by-char, output is <code>putchar</code>.</div>
+      </div>
+
+      <div class="grid-2">
+        <div class="card">
+          <h3><span class="ic">🧩</span> Memory hooks</h3>
+          <ul>
+            <li><b>Double buffer:</b> use <code>grid[2][...][...]</code> and ping-pong with <code>cur = it%2</code>, <code>next = (it+1)%2</code> so neighbor counts use the frozen previous generation.</li>
+            <li><b>Padded border:</b> size the grid <code>(height+2) x (width+2)</code> and work on the inner <code>1..height / 1..width</code> so out-of-bounds neighbors are just the dead padding — no edge checks needed.</li>
+            <li><b>Neighbor count:</b> double loop <code>dy,dx ∈ {-1,0,1}</code>, skip <code>(0,0)</code>.</li>
+            <li>Final buffer to print is <code>iterations % 2</code>.</li>
+          </ul>
+        </div>
+        <div class="card">
+          <h3><span class="ic">⚠️</span> Traps</h3>
+          <ul>
+            <li>Pen must <b>not</b> leave the board (clamp every move). Default pen is <b>up</b> (not drawing).</li>
+            <li>Mark the cell alive only <i>while</i> the pen is down — including the cell you start on after <code>x</code>.</li>
+            <li>Don't add neighbor checks for borders if you use padding — that's the whole trick.</li>
+            <li>Validate <code>ac == 4</code> and non-negative dimensions.</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="code">
+        <div class="code-head"><span class="fname">life.c — input + simulation</span><button class="copy-btn">Copy</button></div>
+        <pre><code><span class="tk-com">// padded grid: indices 1..height, 1..width</span>
+<span class="tk-kw">int</span> grid[<span class="tk-num">2</span>][height+<span class="tk-num">2</span>][width+<span class="tk-num">2</span>] = {<span class="tk-num">0</span>};
+<span class="tk-kw">int</span> x = <span class="tk-num">1</span>, y = <span class="tk-num">1</span>, pen = <span class="tk-num">0</span>; <span class="tk-kw">char</span> c;
+<span class="tk-kw">while</span> (<span class="tk-fn">read</span>(<span class="tk-num">0</span>, &amp;c, <span class="tk-num">1</span>) &gt; <span class="tk-num">0</span>) {
+  <span class="tk-kw">if</span> (c==<span class="tk-str">'w'</span> &amp;&amp; y&gt;<span class="tk-num">1</span>) y--;
+  <span class="tk-kw">else if</span> (c==<span class="tk-str">'s'</span> &amp;&amp; y&lt;height) y++;
+  <span class="tk-kw">else if</span> (c==<span class="tk-str">'a'</span> &amp;&amp; x&gt;<span class="tk-num">1</span>) x--;
+  <span class="tk-kw">else if</span> (c==<span class="tk-str">'d'</span> &amp;&amp; x&lt;width) x++;
+  <span class="tk-kw">else if</span> (c==<span class="tk-str">'x'</span>) pen = !pen;
+  <span class="tk-kw">if</span> (pen) grid[<span class="tk-num">0</span>][y][x] = <span class="tk-num">1</span>;
+}
+<span class="tk-kw">for</span> (<span class="tk-kw">int</span> it=<span class="tk-num">0</span>; it&lt;iterations; it++) {
+  <span class="tk-kw">int</span> cur=it%<span class="tk-num">2</span>, next=(it+<span class="tk-num">1</span>)%<span class="tk-num">2</span>;
+  <span class="tk-kw">for</span> (<span class="tk-kw">int</span> i=<span class="tk-num">1</span>; i&lt;=height; i++)
+   <span class="tk-kw">for</span> (<span class="tk-kw">int</span> j=<span class="tk-num">1</span>; j&lt;=width; j++) {
+     <span class="tk-kw">int</span> n=<span class="tk-num">0</span>;
+     <span class="tk-kw">for</span> (<span class="tk-kw">int</span> dy=-<span class="tk-num">1</span>; dy&lt;=<span class="tk-num">1</span>; dy++)
+      <span class="tk-kw">for</span> (<span class="tk-kw">int</span> dx=-<span class="tk-num">1</span>; dx&lt;=<span class="tk-num">1</span>; dx++)
+        <span class="tk-kw">if</span> (dx||dy) n += grid[cur][i+dy][j+dx];
+     grid[next][i][j] = grid[cur][i][j]
+       ? (n==<span class="tk-num">2</span> || n==<span class="tk-num">3</span>) : (n==<span class="tk-num">3</span>);
+   }
+}</code></pre>
+      </div>
+    </section>
+
+    <!-- FLASHCARDS -->
+    <section id="flashcards">
+      <h2 class="sec-title">🃏 Flashcards</h2>
+      <p class="sec-sub">Click a card to flip. These are the signatures &amp; traps people forget under pressure. Cycle through them until every answer is instant.</p>
+      <div class="flash-deck" id="deck"></div>
+    </section>
+
+    <!-- QUIZ MODE -->
+    <section id="quiz">
+      <h2 class="sec-title">🎯 Quiz Mode</h2>
+      <p class="sec-sub">Test your recall with multiple-choice questions across all 5 exercises. Pick an answer to see if you're right — wrong answers reveal the correct one so you learn instantly.</p>
+      <div class="card">
+        <div class="quiz-bar">
+          <div class="quiz-score">Score: <b id="qScore">0</b> / <span id="qTotal">0</span></div>
+          <div class="quiz-score">Question <span id="qIndex">1</span> / <span id="qCount">0</span></div>
+        </div>
+        <div id="quizBody"></div>
+        <div class="quiz-nav">
+          <button class="tbtn" id="qPrev">← Prev</button>
+          <button class="tbtn go" id="qNext">Next →</button>
+          <button class="tbtn" id="qRestart">↺ Restart</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- CODE DIFF TRAINER -->
+    <section id="difftrainer">
+      <h2 class="sec-title">🔍 Code Diff Trainer</h2>
+      <p class="sec-sub">Each snippet has <b>one buggy line</b>. Click the line you think is wrong. Correct → the fix slides in with an explanation. This trains the exact mistakes that cost you points under pressure.</p>
+      <div class="card">
+        <div class="diff-bar">
+          <div class="diff-title" id="dTitle"></div>
+          <div class="diff-attempts">Solved: <b id="dSolved">0</b> / <span id="dTotal">0</span></div>
+        </div>
+        <p class="diff-hint">👆 Click the buggy line below.</p>
+        <div class="diff-code" id="diffCode"></div>
+        <div class="diff-fix" id="diffFix"></div>
+        <div class="quiz-nav" style="margin-top:14px;">
+          <button class="tbtn" id="dPrev">← Prev</button>
+          <button class="tbtn" id="dShow">Show answer</button>
+          <button class="tbtn go" id="dNext">Next →</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- CHEAT SHEET -->
+    <section id="cheatsheet">
+      <h2 class="sec-title">📋 Cheat Sheet</h2>
+      <p class="sec-sub">A dense, one-page reference of every key signature, pattern, and rule. <button class="print-btn" id="printBtn">🖨️ Print / Save as PDF</button></p>
+      <div class="cheat-grid">
+        <div class="cheat">
+          <h4>vect2 <span class="tag pill cpp">C++</span></h4>
+          <ul>
+            <li>Members <code>int x, y;</code> + canonical 4 (default, copy, <code>operator=</code>, dtor)</li>
+            <li><code>int&amp; operator[](int)</code> write · <code>int operator[](int) const</code> read</li>
+            <li>Pre <code>vect2&amp; operator++()</code> · Post <code>vect2 operator++(int)</code> → save tmp, return old</li>
+            <li><code>+=</code> returns <code>vect2&amp;</code> · <code>+</code> returns <code>vect2</code> and is <code>const</code></li>
+            <li><code>v*2</code> = member · <code>2*v</code> = <code>friend operator*(int, const vect2&amp;)</code></li>
+            <li><code>friend ostream&amp; operator&lt;&lt;</code> prints exactly <code>{x, y}</code> (space after comma)</li>
+          </ul>
+        </div>
+        <div class="cheat">
+          <h4>bigint <span class="tag pill cpp">C++</span></h4>
+          <ul>
+            <li><code>vector&lt;int&gt;</code> digits, <b>least-significant first</b></li>
+            <li>Ctors from <code>unsigned long long</code> &amp; <code>std::string</code></li>
+            <li>Add: <code>while (i &lt; n || carry)</code> → push <code>sum%10</code>, <code>carry = sum/10</code></li>
+            <li><code>&lt;&lt;n</code> = <code>insert(begin(), n, 0)</code> · <code>&gt;&gt;n</code> = erase n front + <code>trim()</code></li>
+            <li>Compare: size first; equal → digit-by-digit MSB→LSB</li>
+            <li><code>trim()</code> keeps ≥1 digit · print back-to-front, no leading zeros</li>
+          </ul>
+        </div>
+        <div class="cheat">
+          <h4>polyset <span class="tag pill cpp">C++</span></h4>
+          <ul>
+            <li><code>bag</code> abstract → <code>searchable_bag : virtual public bag</code> adds <code>has()</code></li>
+            <li><code>searchable_array_bag : public array_bag, public searchable_bag</code></li>
+            <li>Copy ctor forwards: <code>: array_bag(c) {}</code> · <code>operator=</code> calls <code>array_bag::operator=(c)</code></li>
+            <li>array <code>has()</code>: linear loop · tree <code>has()</code>: BST walk (l if &lt;, r else)</li>
+            <li><code>has()</code> &amp; <code>print()</code> must be <code>const</code></li>
+            <li><code>set</code> holds <code>searchable_bag&amp; bag;</code> · insert iff <code>!bag.has(v)</code></li>
+          </ul>
+        </div>
+        <div class="cheat">
+          <h4>bsq <span class="tag pill c">C</span></h4>
+          <ul>
+            <li>First line: <code>rows</code> + empty + obstacle + full chars (distinct)</li>
+            <li>All map lines equal length, end in <code>\n</code>, only legal chars</li>
+            <li>Any failure → print <code>Error: invalid map\n</code></li>
+            <li>DP: <code>dp = 1 + min(up, left, diag)</code>; obstacle→0; row/col 0→1</li>
+            <li>Tie-break: topmost square, then leftmost</li>
+            <li>Allowed: malloc, calloc, realloc, free, fopen, fclose, getline, fscanf, fputs, fprintf, printf</li>
+          </ul>
+        </div>
+        <div class="cheat">
+          <h4>life <span class="tag pill c">C</span></h4>
+          <ul>
+            <li><code>./life width height iterations</code> · validate <code>ac==4</code></li>
+            <li>Pen top-left, default <b>UP</b>; <code>wasd</code> move (clamp), <code>x</code> toggle</li>
+            <li>Mark cell alive while pen is down</li>
+            <li>Padded grid <code>(h+2)×(w+2)</code> · double-buffer <code>cur=it%2</code></li>
+            <li>Rules: live 2–3 survive · dead exactly 3 born · else dead</li>
+            <li>Allowed: atoi, read, putchar, malloc, calloc, realloc, free</li>
+          </ul>
+        </div>
+        <div class="cheat">
+          <h4>⚡ General reflexes</h4>
+          <ul>
+            <li>Compile early: <code>c++ -Wall -Wextra -Werror *.cpp</code></li>
+            <li>Always write the full <b>canonical form</b> (Coplien) in C++</li>
+            <li><code>const</code>-correctness: the provided main calls methods on const objects</li>
+            <li>Match output format <b>byte-for-byte</b> (spaces, newlines)</li>
+            <li>C exercises: <code>free</code> every allocation, no leaks</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- TIMER -->
+    <section id="timer">
+      <h2 class="sec-title">⏱️ Practice Timer</h2>
+      <p class="sec-sub">Simulate exam pressure. Pick a target and try to type a full solution from scratch before it hits zero.</p>
+      <div class="card timer-card">
+        <div class="timer-display" id="tdisp">25:00</div>
+        <div class="timer-btns">
+          <button class="tbtn preset" data-min="25">Lvl 1 · 25m</button>
+          <button class="tbtn preset" data-min="45">Lvl 2 · 45m</button>
+          <button class="tbtn go" id="tstart">Start</button>
+          <button class="tbtn" id="tpause">Pause</button>
+          <button class="tbtn" id="treset">Reset</button>
+        </div>
+      </div>
+      <div class="callout tip"><b>Targets:</b> vect2 &lt; 15m · bigint &lt; 25m · polyset &lt; 30m · bsq &lt; 45m · life &lt; 35m. If you beat these, you're exam-ready.</div>
+      <p class="footer-note">Built for Exam Rank 05 prep · all 5 exercises · progress saved locally in your browser.</p>
+    </section>
+
+  </main>
+</div>
+
+<script>
+(function(){
+  "use strict";
+  const STORE_KEY = "exam05_plan_v1";
+  const SECTIONS = ["overview","schedule","vect2","bigint","polyset","bsq","life","flashcards","quiz","difftrainer","cheatsheet","timer"];
+
+  // ---- State / persistence ----
+  function load(){ try { return JSON.parse(localStorage.getItem(STORE_KEY)) || {}; } catch(e){ return {}; } }
+  function save(s){ localStorage.setItem(STORE_KEY, JSON.stringify(s)); }
+  let state = load();
+  if(!state.checks) state.checks = {};
+
+  // ---- Checkboxes ----
+  const boxes = document.querySelectorAll('.check input[type=checkbox]');
+  boxes.forEach(cb => {
+    const id = cb.getAttribute('data-id');
+    if(state.checks[id]) cb.checked = true;
+    cb.addEventListener('change', () => {
+      state.checks[id] = cb.checked;
+      save(state);
+      updateProgress();
+    });
+  });
+
+  // ---- Progress + section dots ----
+  // map a checkbox id to its exercise section for the nav dots
+  const idToSection = {
+    'd1-vect2':'vect2','d1-bigint':'bigint','d1-polyset':'polyset',
+    'd2-bsq':'bsq','d2-life':'life'
+  };
+  function updateProgress(){
+    const total = boxes.length;
+    let done = 0;
+    boxes.forEach(cb => { if(cb.checked) done++; });
+    const pct = total ? Math.round(done/total*100) : 0;
+    document.getElementById('pfill').style.width = pct + '%';
+    document.getElementById('pct').textContent = pct + '%';
+    // section dots
+    document.querySelectorAll('.nav .dot').forEach(d => d.classList.remove('done'));
+    Object.keys(idToSection).forEach(id => {
+      if(state.checks[id]){
+        const dot = document.querySelector('.nav .dot[data-sec="'+idToSection[id]+'"]');
+        if(dot) dot.classList.add('done');
+      }
+    });
+  }
+  updateProgress();
+
+  // ---- Reset ----
+  document.getElementById('resetBtn').addEventListener('click', () => {
+    if(confirm('Reset all checkboxes and progress?')){
+      state = { checks:{} };
+      save(state);
+      boxes.forEach(cb => cb.checked = false);
+      updateProgress();
+    }
+  });
+
+  // ---- Smooth nav + active highlight ----
+  const navLinks = document.querySelectorAll('.nav a');
+  navLinks.forEach(a => {
+    a.addEventListener('click', e => {
+      e.preventDefault();
+      const el = document.getElementById(a.getAttribute('data-target'));
+      if(el) el.scrollIntoView({behavior:'smooth', block:'start'});
+    });
+  });
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(en => {
+      if(en.isIntersecting){
+        navLinks.forEach(a => a.classList.toggle('active', a.getAttribute('data-target') === en.target.id));
+      }
+    });
+  }, { rootMargin: '-20% 0px -70% 0px' });
+  SECTIONS.forEach(id => { const el = document.getElementById(id); if(el) observer.observe(el); });
+
+  // ---- Copy buttons ----
+  document.querySelectorAll('.copy-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const code = btn.closest('.code').querySelector('code').innerText;
+      navigator.clipboard.writeText(code).then(() => {
+        const old = btn.textContent;
+        btn.textContent = 'Copied!';
+        setTimeout(() => btn.textContent = old, 1200);
+      }).catch(()=>{ btn.textContent = 'Ctrl+C'; });
+    });
+  });
+
+  // ---- Flashcards ----
+  const CARDS = [
+    {q:"vect2: why two operator[]?", a:"Non-const returns int& (write: v[1]=12). Const returns int (read on const objects)."},
+    {q:"Pre vs post increment return type?", a:"Pre: returns ref (vect2&), no arg. Post: takes dummy int, returns old value by value."},
+    {q:"Why is 2 * v a friend function?", a:"Left operand is an int, not a vect2, so it can't be a member. Free friend function."},
+    {q:"bigint: which order are digits stored?", a:"Least-significant first (reversed). Print iterates back-to-front; no leading zeros via trim()."},
+    {q:"bigint addition loop condition?", a:"while (i < size || carry): sum = carry (+ digits…), push sum%10, carry = sum/10."},
+    {q:"bigint <<n  vs  >>n ?", a:"<<n: insert(begin(), n, 0)  (×10ⁿ). >>n: erase first n, then trim (÷10ⁿ)."},
+    {q:"bigint comparison strategy?", a:"After trim: longer vector = bigger. Same length → compare digit-by-digit from MSB (back to front)."},
+    {q:"polyset: keyword preventing the diamond?", a:"virtual public bag — on both array_bag/tree_bag and searchable_bag."},
+    {q:"polyset: searchable subclass copy ctor?", a:"Forward to base in init list: : array_bag(copy) {}  /  : tree_bag(copy) {}"},
+    {q:"polyset: how does set guarantee uniqueness?", a:"It stores a searchable_bag& and inserts only if (!bag.has(value))."},
+    {q:"tree_bag has() walk direction?", a:"BST: value<node → go left (node->l); else go right (node->r)."},
+    {q:"bsq: the DP recurrence?", a:"dp[i][j] = 1 + min(up, left, diag) for free cells; 0 for obstacles; 1 on first row/col."},
+    {q:"bsq: tie-break rule?", a:"Topmost square first, then leftmost. Compare top-left corner = cornerIndex - size + 1."},
+    {q:"bsq: what makes a map invalid?", a:"Unequal line lengths, missing/duplicate symbols, illegal chars, 0 rows, missing trailing \\n. → 'Error: invalid map'."},
+    {q:"life: why a padded grid?", a:"(h+2)x(w+2) so out-of-bounds neighbors are dead padding — no edge checks needed."},
+    {q:"life: double-buffer indices?", a:"cur = it%2, next = (it+1)%2. Final buffer to print = iterations%2."},
+    {q:"life: Conway's rules?", a:"Live with 2 or 3 neighbors survives; dead with exactly 3 is born; otherwise dead."},
+    {q:"life: pen defaults + input func?", a:"Pen starts UP (not drawing). Read input with read(0,&c,1); output with putchar."}
+  ];
+  const deck = document.getElementById('deck');
+  CARDS.forEach(card => {
+    const wrap = document.createElement('div');
+    wrap.className = 'flash';
+    wrap.innerHTML =
+      '<div class="flash-inner">' +
+        '<div class="flash-face flash-front">'+card.q+'<span class="hint">click to flip</span></div>' +
+        '<div class="flash-face flash-back">'+card.a+'</div>' +
+      '</div>';
+    wrap.addEventListener('click', () => wrap.classList.toggle('flipped'));
+    deck.appendChild(wrap);
+  });
+
+  // ---- Timer ----
+  let total = 25*60, remaining = total, tick = null;
+  const disp = document.getElementById('tdisp');
+  function render(){
+    const m = String(Math.floor(remaining/60)).padStart(2,'0');
+    const s = String(remaining%60).padStart(2,'0');
+    disp.textContent = m + ':' + s;
+    disp.style.color = remaining <= 60 ? 'var(--red)' : 'var(--accent)';
+  }
+  function start(){
+    if(tick) return;
+    tick = setInterval(() => {
+      if(remaining > 0){ remaining--; render(); }
+      else { clearInterval(tick); tick = null; disp.textContent = "TIME!"; }
+    }, 1000);
+  }
+  function pause(){ if(tick){ clearInterval(tick); tick = null; } }
+  function reset(){ pause(); remaining = total; render(); }
+  document.getElementById('tstart').addEventListener('click', start);
+  document.getElementById('tpause').addEventListener('click', pause);
+  document.getElementById('treset').addEventListener('click', reset);
+  document.querySelectorAll('.preset').forEach(b => {
+    b.addEventListener('click', () => {
+      pause();
+      total = parseInt(b.getAttribute('data-min'),10) * 60;
+      remaining = total; render();
+    });
+  });
+  render();
+
+  // ---- Quiz Mode ----
+  const QUIZ = [
+    {q:"Why does vect2 need two operator[] overloads?", opts:["To support both int and double indices","Non-const returns int& (write); const returns int (read on const objects)","One is for x, one is for y","To overload for negative indices"], correct:1},
+    {q:"What does post-increment operator++(int) return?", opts:["A reference to *this","void","The old value, by value (save a tmp first)","The incremented value by value"], correct:2},
+    {q:"Why must 2 * v be a free friend function, not a member?", opts:["Because the left operand is an int, not a vect2","Because friends are faster","To avoid copying","Because members can't return vect2"], correct:0},
+    {q:"How are bigint digits stored internally?", opts:["Most-significant digit first","As a single string","Least-significant digit first (reversed)","As an unsigned long long"], correct:2},
+    {q:"What is the bigint addition loop condition?", opts:["while (i < size)","while (i < n || carry)","for each digit once","while (carry > 0)"], correct:1},
+    {q:"What does bigint operator<<n do?", opts:["Divides by 10\u207f","Bit-shifts the integer left","insert(begin(), n, 0) \u2014 multiply by 10\u207f","Appends n zeros to the end (real order)"], correct:2},
+    {q:"Which keyword prevents the polyset diamond problem?", opts:["virtual public bag","static public bag","explicit bag","override"], correct:0},
+    {q:"How does the set class guarantee uniqueness?", opts:["It sorts then dedupes","It holds a searchable_bag& and inserts only if !has(v)","It uses a hash table","It copies the bag each insert"], correct:1},
+    {q:"In tree_bag::has, where do you go when value < node->value?", opts:["Return false","Go right (node->r)","Go left (node->l)","Stay on the node"], correct:2},
+    {q:"What is the bsq DP recurrence for a free cell?", opts:["dp = up + left + diag","dp = 1 + min(up, left, diag)","dp = max(up, left, diag)","dp = 1 + max(up, left, diag)"], correct:1},
+    {q:"What is the bsq tie-break rule for equal-size squares?", opts:["Bottom-most, then right-most","Largest perimeter","Topmost square, then leftmost","Any is acceptable"], correct:2},
+    {q:"Why pad the life grid to (h+2)\u00d7(w+2)?", opts:["To store the iteration count","Out-of-bounds neighbors become dead padding \u2014 no edge checks","For faster memory access","To fit the border characters"], correct:1},
+    {q:"After N iterations, which life buffer holds the result to print?", opts:["iterations % 2","Always buffer 0","Always buffer 1","(iterations+1) % 2"], correct:0},
+    {q:"How does life read input given its allowed functions?", opts:["scanf(\"%c\")","getline","read(0, &c, 1) char-by-char; output with putchar","fgets on stdin"], correct:2}
+  ];
+  let qPos = 0, qScore = 0;
+  const qAnswered = new Array(QUIZ.length).fill(-1); // -1 unanswered, else chosen idx
+  const quizBody = document.getElementById('quizBody');
+  document.getElementById('qTotal').textContent = QUIZ.length;
+  document.getElementById('qCount').textContent = QUIZ.length;
+
+  function renderQuiz(){
+    const item = QUIZ[qPos];
+    document.getElementById('qIndex').textContent = qPos + 1;
+    const chosen = qAnswered[qPos];
+    quizBody.innerHTML = '';
+    const qEl = document.createElement('div');
+    qEl.className = 'quiz-q';
+    const num = document.createElement('span'); num.className = 'qnum'; num.textContent = 'Q' + (qPos+1) + '.';
+    qEl.appendChild(num);
+    qEl.appendChild(document.createTextNode(item.q));
+    quizBody.appendChild(qEl);
+    item.opts.forEach((opt, i) => {
+      const btn = document.createElement('button');
+      btn.className = 'quiz-opt';
+      btn.textContent = opt;
+      if(chosen !== -1){
+        btn.disabled = true;
+        if(i === item.correct){ btn.classList.add('correct'); const m=document.createElement('span'); m.className='mark'; m.textContent='\u2713'; btn.appendChild(m); }
+        else if(i === chosen){ btn.classList.add('wrong'); const m=document.createElement('span'); m.className='mark'; m.textContent='\u2717'; btn.appendChild(m); }
+      }
+      btn.addEventListener('click', () => {
+        if(qAnswered[qPos] !== -1) return;
+        qAnswered[qPos] = i;
+        if(i === item.correct) qScore++;
+        document.getElementById('qScore').textContent = qScore;
+        renderQuiz();
+      });
+      quizBody.appendChild(btn);
+    });
+    document.getElementById('qScore').textContent = qScore;
+  }
+  document.getElementById('qPrev').addEventListener('click', () => { if(qPos>0){ qPos--; renderQuiz(); } });
+  document.getElementById('qNext').addEventListener('click', () => { if(qPos<QUIZ.length-1){ qPos++; renderQuiz(); } });
+  document.getElementById('qRestart').addEventListener('click', () => {
+    qPos = 0; qScore = 0; qAnswered.fill(-1);
+    document.getElementById('qScore').textContent = '0';
+    renderQuiz();
+  });
+  renderQuiz();
+
+  // ---- Code Diff Trainer ----
+  const DIFFS = [
+    { title:"vect2 \u2014 post-increment", lang:"cpp",
+      lines:["vect2 vect2::operator++(int) {","  x++; y++;","  return *this;","}"],
+      buggy:2, fix:"  vect2 tmp = *this; x++; y++; return tmp;",
+      why:"Post-increment must return the OLD value. Save a tmp before mutating, then return tmp \u2014 returning *this gives the already-incremented value." },
+    { title:"vect2 \u2014 operator+= return type", lang:"cpp",
+      lines:["vect2 vect2::operator+=(const vect2& v) {","  x += v.x; y += v.y;","  return *this;","}"],
+      buggy:0, fix:"vect2& vect2::operator+=(const vect2& v) {",
+      why:"Compound assignment must return vect2& (a reference) so chained calls like (a += b) += c work and no copy is made." },
+    { title:"bigint \u2014 addition carry", lang:"cpp",
+      lines:["for (size_t i = 0; i < n || carry; i++) {","  int sum = carry;","  if (i < digits.size())   sum += digits[i];","  if (i < b.digits.size()) sum += b.digits[i];","  res.digits.push_back(sum / 10);","  carry = sum % 10;","}"],
+      buggy:4, fix:"  res.digits.push_back(sum % 10);",
+      why:"You push the digit (sum % 10) and carry the tens (sum / 10). This line had them swapped." },
+    { title:"bigint \u2014 comparison by size", lang:"cpp",
+      lines:["bool bigint::operator<(const bigint& b) const {","  if (digits.size() != b.digits.size())","    return digits.size() > b.digits.size();","  for (int i = digits.size()-1; i >= 0; i--)","    if (digits[i] != b.digits[i])","      return digits[i] < b.digits[i];","  return false;","}"],
+      buggy:2, fix:"    return digits.size() < b.digits.size();",
+      why:"For operator<, fewer digits means a SMALLER number (after trim). The comparison must be < , not >." },
+    { title:"polyset \u2014 searchable_bag inheritance", lang:"cpp",
+      lines:["class searchable_bag","  : public bag {","public:","  virtual bool has(int value) const = 0;","};"],
+      buggy:1, fix:"  : virtual public bag {",
+      why:"Must use 'virtual public bag' so the diamond (array_bag + searchable_bag both inheriting bag) collapses to a single bag subobject." },
+    { title:"polyset \u2014 set uniqueness", lang:"cpp",
+      lines:["void set::insert(int v) {","  if (bag.has(v))","    bag.insert(v);","}"],
+      buggy:1, fix:"  if (!bag.has(v))",
+      why:"A set inserts only NEW values. The guard must be !bag.has(v) \u2014 insert only when the value is absent." },
+    { title:"polyset \u2014 tree_bag has() walk", lang:"cpp",
+      lines:["while (cur) {","  if (cur->value == value) return true;","  else if (cur->value > value) cur = cur->r;","  else cur = cur->l;","}"],
+      buggy:2, fix:"  else if (cur->value > value) cur = cur->l;",
+      why:"In a BST, if the node's value is greater than the target, the target must be on the LEFT (smaller) side \u2014 go cur->l." },
+    { title:"bsq \u2014 DP recurrence", lang:"c",
+      lines:["if (map[i][j] == obst) dp[idx] = 0;","else if (i == 0 || j == 0) dp[idx] = 1;","else","  dp[idx] = 1 + max3(up, left, diag);"],
+      buggy:3, fix:"  dp[idx] = 1 + min3(up, left, diag);",
+      why:"A square's side is limited by its SMALLEST neighbor, so it's 1 + min(up,left,diag), not max." },
+    { title:"life \u2014 pen clamp", lang:"c",
+      lines:["if (c=='w' && y>1) y--;","else if (c=='s' && y<height) y++;","else if (c=='a' && x>1) x--;","else if (c=='d' && x<width) x++;","if (pen) grid[0][y][x] = 1;"],
+      buggy:4, fix:"if (pen) grid[0][y][x] = 1;  // OK \u2014 but mark must use current pen state each step",
+      why:"Trick: this line is actually correct. The common real bug is forgetting to mark while the pen is down. Reading carefully and confirming correctness is itself a skill \u2014 here every line is fine." },
+    { title:"life \u2014 Conway survival rule", lang:"c",
+      lines:["grid[next][i][j] = grid[cur][i][j]","  ? (n == 2 || n == 3)","  : (n == 2);"],
+      buggy:2, fix:"  : (n == 3);",
+      why:"A DEAD cell is born only with EXACTLY 3 neighbors. A live cell survives with 2 or 3. This line had the birth rule wrong." }
+  ];
+  let dPos = 0;
+  const dSolved = new Array(DIFFS.length).fill(false);
+  const diffCode = document.getElementById('diffCode');
+  const diffFix = document.getElementById('diffFix');
+  document.getElementById('dTotal').textContent = DIFFS.length;
+
+  function updateDiffSolvedCount(){
+    document.getElementById('dSolved').textContent = dSolved.filter(Boolean).length;
+  }
+  function revealDiffFix(){
+    const item = DIFFS[dPos];
+    diffFix.innerHTML = '';
+    const fl = document.createElement('div');
+    fl.className = 'fix-line';
+    fl.textContent = '\u2713 Fix: ' + item.fix.trim();
+    const why = document.createElement('div');
+    why.className = 'callout tip';
+    why.style.marginTop = '10px';
+    why.innerHTML = '<b>Why:</b> ';
+    why.appendChild(document.createTextNode(item.why));
+    diffFix.appendChild(fl);
+    diffFix.appendChild(why);
+    diffFix.classList.add('show');
+  }
+  function lockDiffLines(){
+    diffCode.querySelectorAll('.dl').forEach(dl => dl.classList.add('locked'));
+  }
+  function renderDiff(){
+    const item = DIFFS[dPos];
+    document.getElementById('dTitle').innerHTML = '';
+    const t = document.getElementById('dTitle');
+    t.appendChild(document.createTextNode(item.title));
+    const lang = document.createElement('span'); lang.className='lang'; lang.textContent = item.lang.toUpperCase();
+    t.appendChild(lang);
+    diffCode.innerHTML = '';
+    diffFix.classList.remove('show');
+    diffFix.innerHTML = '';
+    item.lines.forEach((line, i) => {
+      const dl = document.createElement('div');
+      dl.className = 'dl';
+      const ln = document.createElement('span'); ln.className = 'ln'; ln.textContent = (i+1);
+      const ct = document.createElement('span'); ct.className = 'ct'; ct.textContent = line;
+      dl.appendChild(ln); dl.appendChild(ct);
+      dl.addEventListener('click', () => {
+        if(dl.classList.contains('locked')) return;
+        if(i === item.buggy){
+          dl.classList.add('correct');
+          dSolved[dPos] = true;
+          updateDiffSolvedCount();
+          lockDiffLines();
+          revealDiffFix();
+        } else {
+          dl.classList.add('wrong');
+          setTimeout(() => dl.classList.remove('wrong'), 480);
+        }
+      });
+      diffCode.appendChild(dl);
+    });
+    // restore solved state if revisiting
+    if(dSolved[dPos]){
+      const target = diffCode.querySelectorAll('.dl')[item.buggy];
+      if(target) target.classList.add('correct');
+      lockDiffLines();
+      revealDiffFix();
+    }
+    updateDiffSolvedCount();
+  }
+  document.getElementById('dPrev').addEventListener('click', () => { if(dPos>0){ dPos--; renderDiff(); } });
+  document.getElementById('dNext').addEventListener('click', () => { if(dPos<DIFFS.length-1){ dPos++; renderDiff(); } });
+  document.getElementById('dShow').addEventListener('click', () => {
+    const item = DIFFS[dPos];
+    const target = diffCode.querySelectorAll('.dl')[item.buggy];
+    if(target) target.classList.add('correct');
+    dSolved[dPos] = true;
+    lockDiffLines();
+    revealDiffFix();
+    updateDiffSolvedCount();
+  });
+  renderDiff();
+
+  // ---- Cheat sheet print ----
+  document.getElementById('printBtn').addEventListener('click', () => window.print());
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,941 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>42 — Exam Rank 05 Survival Guide</title>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;700&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0a0a0f;
+    --surface: #111118;
+    --border: rgba(255,255,255,0.06);
+    --border-strong: rgba(255,255,255,0.12);
+    --text: #e8e8f0;
+    --muted: #6b6b80;
+    --dim: #3a3a4a;
+    --amber: #f0a500;
+    --amber-dim: rgba(240,165,0,0.12);
+    --amber-border: rgba(240,165,0,0.3);
+    --teal: #00d4a0;
+    --teal-dim: rgba(0,212,160,0.1);
+    --teal-border: rgba(0,212,160,0.3);
+    --blue: #4d9fff;
+    --blue-dim: rgba(77,159,255,0.1);
+    --blue-border: rgba(77,159,255,0.3);
+    --red: #ff4d6d;
+    --red-dim: rgba(255,77,109,0.08);
+    --red-border: rgba(255,77,109,0.25);
+    --purple: #a78bfa;
+    --purple-dim: rgba(167,139,250,0.1);
+    --purple-border: rgba(167,139,250,0.3);
+    --green: #4ade80;
+    --green-dim: rgba(74,222,128,0.1);
+    --green-border: rgba(74,222,128,0.3);
+    --mono: 'JetBrains Mono', monospace;
+    --sans: 'Syne', sans-serif;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--mono);
+    font-size: 14px;
+    line-height: 1.6;
+    min-height: 100vh;
+  }
+
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px);
+    background-size: 40px 40px;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .wrapper {
+    position: relative;
+    z-index: 1;
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 2rem 1.5rem 5rem;
+  }
+
+  /* HEADER */
+  .header {
+    margin-bottom: 2rem;
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 1.5rem;
+  }
+  .header-label {
+    font-size: 11px;
+    color: var(--muted);
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    margin-bottom: 0.4rem;
+  }
+  .header-title {
+    font-family: var(--sans);
+    font-size: clamp(1.8rem, 5vw, 2.6rem);
+    font-weight: 800;
+    line-height: 1.1;
+    color: #fff;
+    letter-spacing: -0.02em;
+  }
+  .header-title span { color: var(--amber); }
+  .header-sub {
+    margin-top: 0.5rem;
+    font-size: 12px;
+    color: var(--muted);
+  }
+  .level-pills {
+    display: flex;
+    gap: 6px;
+    margin-top: 0.75rem;
+    flex-wrap: wrap;
+  }
+  .level-pill {
+    font-size: 11px;
+    padding: 3px 10px;
+    border-radius: 3px;
+    border: 1px solid;
+    letter-spacing: 0.05em;
+  }
+  .lv1 { background: var(--purple-dim); color: var(--purple); border-color: var(--purple-border); }
+  .lv2 { background: var(--amber-dim); color: var(--amber); border-color: var(--amber-border); }
+
+  /* TABS */
+  .tabs {
+    display: flex;
+    gap: 4px;
+    margin-bottom: 2rem;
+    flex-wrap: wrap;
+  }
+  .tab {
+    padding: 6px 14px;
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    font-family: var(--mono);
+    font-size: 12px;
+    color: var(--muted);
+    cursor: pointer;
+    background: transparent;
+    transition: all 0.15s;
+    letter-spacing: 0.03em;
+  }
+  .tab:hover { border-color: var(--border-strong); color: var(--text); }
+  .tab.active { color: #000; background: var(--amber); border-color: var(--amber); font-weight: 500; }
+  .tab-sep {
+    width: 1px;
+    background: var(--border);
+    margin: 0 4px;
+    align-self: stretch;
+  }
+
+  .panel { display: none; }
+  .panel.active { display: block; animation: fadeIn 0.18s ease; }
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; } }
+
+  /* CARDS */
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 1.25rem 1.5rem;
+    margin-bottom: 1rem;
+  }
+  .card-title {
+    font-family: var(--sans);
+    font-size: 13px;
+    font-weight: 600;
+    color: #fff;
+    margin-bottom: 0.75rem;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+  .section-label {
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin: 1.5rem 0 0.6rem;
+  }
+  .section-label:first-child { margin-top: 0; }
+
+  /* BADGES */
+  .badge {
+    display: inline-block;
+    font-size: 10px;
+    padding: 2px 8px;
+    border-radius: 3px;
+    letter-spacing: 0.05em;
+    font-weight: 500;
+    vertical-align: middle;
+  }
+  .b-amber  { background: var(--amber-dim);  color: var(--amber);  border: 1px solid var(--amber-border);  }
+  .b-teal   { background: var(--teal-dim);   color: var(--teal);   border: 1px solid var(--teal-border);   }
+  .b-blue   { background: var(--blue-dim);   color: var(--blue);   border: 1px solid var(--blue-border);   }
+  .b-red    { background: var(--red-dim);    color: var(--red);    border: 1px solid var(--red-border);    }
+  .b-purple { background: var(--purple-dim); color: var(--purple); border: 1px solid var(--purple-border); }
+  .b-green  { background: var(--green-dim);  color: var(--green);  border: 1px solid var(--green-border);  }
+
+  /* ITEMS */
+  .item {
+    font-size: 13px;
+    color: rgba(232,232,240,0.7);
+    padding: 3px 0 3px 1rem;
+    position: relative;
+    line-height: 1.55;
+  }
+  .item::before { content: '›'; position: absolute; left: 0; color: var(--dim); }
+
+  /* TRAP */
+  .trap {
+    background: var(--red-dim);
+    border-left: 2px solid var(--red);
+    padding: 6px 10px 6px 12px;
+    border-radius: 0 4px 4px 0;
+    margin: 5px 0;
+    font-size: 12.5px;
+    color: rgba(255,77,109,0.9);
+    line-height: 1.5;
+  }
+
+  /* TIP */
+  .tip {
+    background: var(--teal-dim);
+    border-left: 2px solid var(--teal);
+    padding: 6px 10px 6px 12px;
+    border-radius: 0 4px 4px 0;
+    margin: 5px 0;
+    font-size: 12.5px;
+    color: rgba(0,212,160,0.85);
+    line-height: 1.5;
+  }
+
+  /* CODE */
+  .code-block {
+    background: #0d0d14;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 1rem 1.25rem;
+    font-family: var(--mono);
+    font-size: 12px;
+    color: #c8c8d8;
+    white-space: pre;
+    overflow-x: auto;
+    margin: 0.75rem 0;
+    line-height: 1.7;
+    tab-size: 4;
+  }
+  .kw  { color: #c792ea; }
+  .fn  { color: #82aaff; }
+  .cm  { color: #546e7a; font-style: italic; }
+  .str { color: #c3e88d; }
+  .num { color: #f78c6c; }
+  .op  { color: #89ddff; }
+  .tp  { color: #ffcb6b; }
+
+  /* SCHEDULE */
+  .sched-row {
+    display: grid;
+    grid-template-columns: 110px 1fr;
+    gap: 12px;
+    align-items: start;
+    padding: 10px 0;
+    border-bottom: 1px solid var(--border);
+  }
+  .sched-row:last-child { border-bottom: none; }
+  .sched-time { font-size: 12px; color: var(--muted); padding-top: 2px; }
+  .sched-content { font-size: 13px; color: var(--text); line-height: 1.5; }
+
+  /* PRIORITY */
+  .priority-row {
+    display: flex;
+    gap: 10px;
+    align-items: flex-start;
+    margin-bottom: 1rem;
+  }
+  .pnum {
+    width: 24px; height: 24px;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 11px; font-weight: 700;
+    flex-shrink: 0; margin-top: 2px;
+  }
+  .p1 { background: var(--amber-dim);  color: var(--amber);  border: 1px solid var(--amber-border);  }
+  .p2 { background: var(--purple-dim); color: var(--purple); border: 1px solid var(--purple-border); }
+  .p3 { background: var(--blue-dim);   color: var(--blue);   border: 1px solid var(--blue-border);   }
+  .p4 { background: var(--green-dim);  color: var(--green);  border: 1px solid var(--green-border);  }
+
+  /* COMPRESS */
+  .compress-box {
+    border: 1px solid var(--purple-border);
+    background: var(--purple-dim);
+    border-radius: 8px;
+    padding: 1rem 1.25rem;
+    margin-bottom: 0.75rem;
+  }
+  .compress-title {
+    font-family: var(--sans);
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--purple);
+    margin-bottom: 0.5rem;
+  }
+  .compress-key { color: var(--purple); font-weight: 700; }
+  .compress-item { font-size: 12.5px; color: rgba(167,139,250,0.75); padding: 2px 0; }
+
+  /* CHECKLIST */
+  .checklist-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    padding: 7px 0;
+    border-bottom: 1px solid var(--border);
+    font-size: 13px;
+    cursor: pointer;
+    user-select: none;
+    transition: opacity 0.15s;
+  }
+  .checklist-item:last-child { border-bottom: none; }
+  .check-box {
+    width: 16px; height: 16px;
+    border: 1px solid var(--dim);
+    border-radius: 3px;
+    flex-shrink: 0;
+    margin-top: 2px;
+    display: flex; align-items: center; justify-content: center;
+    transition: all 0.15s;
+  }
+  .checklist-item.done .check-box { background: var(--teal); border-color: var(--teal); }
+  .checklist-item.done .check-box::after { content: '✓'; font-size: 10px; color: #000; font-weight: 700; }
+  .checklist-item.done .check-label { color: var(--muted); text-decoration: line-through; }
+  .check-label { color: rgba(232,232,240,0.8); line-height: 1.4; }
+
+  /* TWO-COL LAYOUT */
+  .two-col {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    margin-bottom: 1rem;
+  }
+  @media (max-width: 640px) {
+    .two-col { grid-template-columns: 1fr; }
+    .sched-row { grid-template-columns: 85px 1fr; }
+  }
+
+  /* DP TABLE */
+  .dp-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 12px;
+    margin: 0.75rem 0;
+  }
+  .dp-table th, .dp-table td {
+    border: 1px solid var(--border);
+    padding: 6px 10px;
+    text-align: center;
+  }
+  .dp-table th { background: rgba(167,139,250,0.1); color: var(--purple); font-weight: 500; }
+  .dp-table td { color: rgba(232,232,240,0.7); }
+  .dp-table .hi { color: var(--amber); font-weight: 700; }
+
+  .footer {
+    margin-top: 3rem;
+    padding-top: 1rem;
+    border-top: 1px solid var(--border);
+    font-size: 11px;
+    color: var(--dim);
+    text-align: center;
+    letter-spacing: 0.05em;
+  }
+</style>
+</head>
+<body>
+<div class="wrapper">
+
+  <!-- HEADER -->
+  <div class="header">
+    <div class="header-label">42 Network · Exam Rank 05</div>
+    <div class="header-title">Your <span>survival guide.</span></div>
+    <div class="header-sub">C++ only — 2 levels, 5 possible exercises</div>
+    <div class="level-pills">
+      <span class="level-pill lv1">Level 1 — polyset / bigint / vect2</span>
+      <span class="level-pill lv2">Level 2 — bsq / life</span>
+    </div>
+  </div>
+
+  <!-- TABS -->
+  <div class="tabs">
+    <button class="tab active" onclick="show('strategy',this)">Strategy</button>
+    <div class="tab-sep"></div>
+    <button class="tab" onclick="show('vect2',this)">vect2</button>
+    <button class="tab" onclick="show('polyset',this)">polyset</button>
+    <button class="tab" onclick="show('bigint',this)">bigint</button>
+    <div class="tab-sep"></div>
+    <button class="tab" onclick="show('bsq',this)">bsq</button>
+    <button class="tab" onclick="show('life',this)">life</button>
+    <div class="tab-sep"></div>
+    <button class="tab" onclick="show('schedule',this)">Schedule</button>
+    <button class="tab" onclick="show('compress',this)">Memory</button>
+    <button class="tab" onclick="show('checklist',this)">Pre-Submit ✓</button>
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- STRATEGY                                                      -->
+  <!-- ============================================================ -->
+  <div id="strategy" class="panel active">
+    <div class="section-label">Level 1 Priority</div>
+    <div class="card">
+      <div class="priority-row">
+        <div class="pnum p1">1</div>
+        <div>
+          <div class="card-title" style="margin-bottom:0.2rem">vect2 <span class="badge b-amber">start here</span></div>
+          <div class="item">Most contained scope. Template + 2 members + 5 operator overloads. Completable in ~30 min.</div>
+          <div class="item">Operator overload patterns you drill here transfer directly to bigint and polyset.</div>
+        </div>
+      </div>
+      <div class="priority-row" style="margin-top:0.5rem">
+        <div class="pnum p2">2</div>
+        <div>
+          <div class="card-title" style="margin-bottom:0.2rem">polyset <span class="badge b-purple">if vect2 done fast</span></div>
+          <div class="item">Inheritance + dynamic dispatch — more structural than algorithmic. Mental model: 3 layers (bag → searchable_bag → set).</div>
+          <div class="item">OCF (Orthodox Canonical Form) is mandatory on every class — that's the main trap.</div>
+        </div>
+      </div>
+      <div class="priority-row" style="margin-top:0.5rem">
+        <div class="pnum p3">3</div>
+        <div>
+          <div class="card-title" style="margin-bottom:0.2rem">bigint <span class="badge b-blue">hardest L1</span></div>
+          <div class="item">Arbitrary precision requires digit array management. High implementation cost — only attempt if you have 60+ min and vect2 is already solid.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section-label">Level 2 Priority</div>
+    <div class="card">
+      <div class="priority-row">
+        <div class="pnum p1">1</div>
+        <div>
+          <div class="card-title" style="margin-bottom:0.2rem">bsq <span class="badge b-amber">cleaner algorithm</span></div>
+          <div class="item">DP formula is one line: <code>dp[i][j] = 1 + min(top, left, diag)</code>. Parse map → fill DP → render output.</div>
+          <div class="item">Well-defined input/output contract. Easier to verify correctness under pressure.</div>
+        </div>
+      </div>
+      <div class="priority-row" style="margin-top:0.5rem">
+        <div class="pnum p2">2</div>
+        <div>
+          <div class="card-title" style="margin-bottom:0.2rem">life <span class="badge b-purple">simulation trap</span></div>
+          <div class="item">Rules are simple but you MUST update from a copy — modifying in-place corrupts neighbor counts.</div>
+          <div class="item">Boundary handling: either clamp coords or use a padded grid.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section-label">Survival Logic</div>
+    <div class="card">
+      <div class="item">2 complete submissions beats 3 partial — always. Finish before you polish.</div>
+      <div class="item">vect2 is your warm-up. It gets your hands into C++ template + operator syntax fast.</div>
+      <div class="item">OCF is not optional — every class needs constructor, destructor, copy ctor, copy assignment.</div>
+      <div class="item">For Level 2: read the subject carefully — map format and output format are where points die.</div>
+    </div>
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- VECT2                                                         -->
+  <!-- ============================================================ -->
+  <div id="vect2" class="panel">
+    <div class="section-label">Mental Model — "SCOO"</div>
+    <div class="card">
+      <div class="item"><strong style="color:var(--text)">S</strong> — template header + two members: <code>T x, y;</code></div>
+      <div class="item"><strong style="color:var(--text)">C</strong> — 3 constructors: default, parameterized, copy</div>
+      <div class="item"><strong style="color:var(--text)">O</strong> — canonical <code>operator=</code> with self-assignment guard</div>
+      <div class="item"><strong style="color:var(--text)">O</strong> — overloads: +, -, *, ==, and <code>operator&lt;&lt;</code> as friend</div>
+    </div>
+
+    <div class="section-label">Traps</div>
+    <div class="trap">Everything must be in <code>.hpp</code> — templates can't be split into .cpp (linker error).</div>
+    <div class="trap">Missing <code>const</code> at end of operator methods → won't compile on const objects.</div>
+    <div class="trap"><code>operator&lt;&lt;</code> as a member → wrong signature. Must be free function or <code>friend</code>.</div>
+    <div class="trap">Missing <code>#ifndef</code> include guard → multiple inclusion errors.</div>
+    <div class="trap">Missing default constructor → fails if subject uses <code>Vect2&lt;int&gt; v;</code> syntax.</div>
+
+    <div class="section-label">Skeleton</div>
+<div class="code-block"><span class="kw">#ifndef</span> VECT2_HPP
+<span class="kw">#define</span> VECT2_HPP
+<span class="kw">#include</span> <span class="str">&lt;iostream&gt;</span>
+
+<span class="kw">template</span> <span class="op">&lt;</span><span class="kw">typename</span> <span class="tp">T</span><span class="op">&gt;</span>
+<span class="kw">class</span> <span class="tp">Vect2</span>
+{
+<span class="kw">public</span>:
+    <span class="tp">T</span> x, y;
+
+    <span class="cm">// default</span>
+    <span class="tp">Vect2</span>() : x(<span class="tp">T</span>()), y(<span class="tp">T</span>()) {}
+    <span class="cm">// param</span>
+    <span class="tp">Vect2</span>(<span class="tp">T</span> x, <span class="tp">T</span> y) : x(x), y(y) {}
+    <span class="cm">// copy</span>
+    <span class="tp">Vect2</span>(<span class="kw">const</span> <span class="tp">Vect2</span> <span class="op">&amp;</span>o) : x(o.x), y(o.y) {}
+    <span class="cm">// destructor</span>
+    <span class="op">~</span><span class="tp">Vect2</span>() {}
+
+    <span class="cm">// copy assignment</span>
+    <span class="tp">Vect2</span> <span class="op">&amp;</span><span class="kw">operator</span><span class="op">=</span>(<span class="kw">const</span> <span class="tp">Vect2</span> <span class="op">&amp;</span>o)
+    {
+        <span class="kw">if</span> (<span class="kw">this</span> <span class="op">!=</span> <span class="op">&amp;</span>o) { x <span class="op">=</span> o.x; y <span class="op">=</span> o.y; }
+        <span class="kw">return</span> <span class="op">*</span><span class="kw">this</span>;
+    }
+
+    <span class="cm">// arithmetic — all const</span>
+    <span class="tp">Vect2</span> <span class="kw">operator</span><span class="op">+</span>(<span class="kw">const</span> <span class="tp">Vect2</span> <span class="op">&amp;</span>r) <span class="kw">const</span> { <span class="kw">return</span> <span class="tp">Vect2</span>(x<span class="op">+</span>r.x, y<span class="op">+</span>r.y); }
+    <span class="tp">Vect2</span> <span class="kw">operator</span><span class="op">-</span>(<span class="kw">const</span> <span class="tp">Vect2</span> <span class="op">&amp;</span>r) <span class="kw">const</span> { <span class="kw">return</span> <span class="tp">Vect2</span>(x<span class="op">-</span>r.x, y<span class="op">-</span>r.y); }
+    <span class="tp">Vect2</span> <span class="kw">operator</span><span class="op">*</span>(<span class="tp">T</span> s)               <span class="kw">const</span> { <span class="kw">return</span> <span class="tp">Vect2</span>(x<span class="op">*</span>s, y<span class="op">*</span>s); }
+    <span class="kw">bool</span>  <span class="kw">operator</span><span class="op">==</span>(<span class="kw">const</span> <span class="tp">Vect2</span> <span class="op">&amp;</span>r) <span class="kw">const</span> { <span class="kw">return</span> x<span class="op">==</span>r.x <span class="op">&amp;&amp;</span> y<span class="op">==</span>r.y; }
+    <span class="kw">bool</span>  <span class="kw">operator</span><span class="op">!=</span>(<span class="kw">const</span> <span class="tp">Vect2</span> <span class="op">&amp;</span>r) <span class="kw">const</span> { <span class="kw">return</span> !(<span class="op">*</span><span class="kw">this</span> <span class="op">==</span> r); }
+
+    <span class="cm">// stream — free friend function</span>
+    <span class="kw">friend</span> std::ostream <span class="op">&amp;</span><span class="kw">operator</span><span class="op">&lt;&lt;</span>(std::ostream <span class="op">&amp;</span>os, <span class="kw">const</span> <span class="tp">Vect2</span> <span class="op">&amp;</span>v)
+    { <span class="kw">return</span> os <span class="op">&lt;&lt;</span> <span class="str">"("</span> <span class="op">&lt;&lt;</span> v.x <span class="op">&lt;&lt;</span> <span class="str">", "</span> <span class="op">&lt;&lt;</span> v.y <span class="op">&lt;&lt;</span> <span class="str">")"</span>; }
+};
+
+<span class="kw">#endif</span></div>
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- POLYSET                                                       -->
+  <!-- ============================================================ -->
+  <div id="polyset" class="panel">
+    <div class="section-label">Architecture — 3 Layers</div>
+    <div class="card">
+      <div class="item"><strong style="color:var(--text)">Layer 1 (given):</strong> <code>array_bag</code> and <code>tree_bag</code> — already implemented, just inherit</div>
+      <div class="item"><strong style="color:var(--text)">Layer 2 (you write):</strong> <code>searchable_array_bag</code> and <code>searchable_tree_bag</code> — inherit from both bag + <code>searchable_bag</code></div>
+      <div class="item"><strong style="color:var(--text)">Layer 3 (you write):</strong> <code>set</code> — wraps a <code>searchable_bag*</code>, enforces no-duplicate invariant via <code>contains()</code></div>
+    </div>
+
+    <div class="section-label">Core Patterns</div>
+    <div class="card">
+      <div class="card-title">searchable_bag interface</div>
+      <div class="item">Pure virtual: <code>virtual bool contains(const T&amp;) const = 0;</code></div>
+      <div class="item">Every concrete class must implement <code>contains</code> — check before insert in <code>set::add</code></div>
+    </div>
+    <div class="card">
+      <div class="card-title">set::add — the only logic that matters</div>
+      <div class="item"><code>if (!bag-&gt;contains(val)) bag-&gt;add(val);</code> — that's the entire set semantic</div>
+      <div class="item">set holds a pointer to <code>searchable_bag</code> — polymorphism does the rest</div>
+    </div>
+
+    <div class="section-label">OCF — apply to EVERY class you write</div>
+    <div class="card">
+      <div class="item">Default constructor (may call base ctor via initializer list)</div>
+      <div class="item">Copy constructor: deep-copy all heap-allocated members</div>
+      <div class="item">Copy assignment: self-guard + deep-copy + return <code>*this</code></div>
+      <div class="item">Destructor: delete all raw pointers — never leave leaks</div>
+    </div>
+
+    <div class="section-label">Traps</div>
+    <div class="trap">Forgetting OCF on any class — each one needs all 4. Not just the set.</div>
+    <div class="trap">Slicing: set must store a <code>searchable_bag*</code> pointer, not a value — polymorphism requires it.</div>
+    <div class="trap">Missing <code>virtual</code> destructor on base classes — UB when deleting through base pointer.</div>
+    <div class="trap">Multiple inheritance ambiguity — use virtual inheritance if needed on searchable_bag.</div>
+
+    <div class="section-label">Skeleton — set class</div>
+<div class="code-block"><span class="kw">template</span> <span class="op">&lt;</span><span class="kw">typename</span> <span class="tp">T</span><span class="op">&gt;</span>
+<span class="kw">class</span> set
+{
+<span class="kw">private</span>:
+    searchable_bag<span class="op">&lt;</span><span class="tp">T</span><span class="op">&gt;*</span> _bag;
+
+<span class="kw">public</span>:
+    set(searchable_bag<span class="op">&lt;</span><span class="tp">T</span><span class="op">&gt;*</span> b) : _bag(b) {}
+    set(<span class="kw">const</span> set <span class="op">&amp;</span>o) : _bag(o._bag<span class="op">-&gt;</span>clone()) {} <span class="cm">// deep copy via virtual clone()</span>
+    set <span class="op">&amp;</span><span class="kw">operator</span><span class="op">=</span>(<span class="kw">const</span> set <span class="op">&amp;</span>o) {
+        <span class="kw">if</span> (<span class="kw">this</span> <span class="op">!=</span> <span class="op">&amp;</span>o) { <span class="kw">delete</span> _bag; _bag <span class="op">=</span> o._bag<span class="op">-&gt;</span>clone(); }
+        <span class="kw">return</span> <span class="op">*</span><span class="kw">this</span>;
+    }
+    <span class="op">~</span>set() { <span class="kw">delete</span> _bag; }
+
+    <span class="kw">void</span> add(<span class="kw">const</span> <span class="tp">T</span> <span class="op">&amp;</span>val)
+    {
+        <span class="kw">if</span> (!_bag<span class="op">-&gt;</span>contains(val))  <span class="cm">// set semantic: no duplicates</span>
+            _bag<span class="op">-&gt;</span>add(val);
+    }
+    <span class="kw">bool</span> contains(<span class="kw">const</span> <span class="tp">T</span> <span class="op">&amp;</span>val) <span class="kw">const</span> { <span class="kw">return</span> _bag<span class="op">-&gt;</span>contains(val); }
+    <span class="kw">int</span>  size()                  <span class="kw">const</span> { <span class="kw">return</span> _bag<span class="op">-&gt;</span>size(); }
+};</div>
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- BIGINT                                                        -->
+  <!-- ============================================================ -->
+  <div id="bigint" class="panel">
+    <div class="section-label">Core Design</div>
+    <div class="card">
+      <div class="item">Store digits as <code>std::string</code> (easiest) or <code>std::vector&lt;int&gt;</code></div>
+      <div class="item">String approach: LSB at index 0 (reversed) or MSB at 0 — pick one, stay consistent</div>
+      <div class="item">Separate sign: <code>bool _negative; std::string _digits;</code></div>
+    </div>
+
+    <div class="section-label">Key Algorithms</div>
+    <div class="two-col">
+      <div class="card">
+        <div class="card-title">Addition (same sign)</div>
+        <div class="item">Walk both strings right-to-left, add digit by digit + carry</div>
+        <div class="item">Push remainder, carry final overflow</div>
+        <div class="item">Reverse at end if storing LSB-first</div>
+      </div>
+      <div class="card">
+        <div class="card-title">Subtraction</div>
+        <div class="item">Compare magnitudes first — larger minus smaller</div>
+        <div class="item">Walk right-to-left, subtract + borrow</div>
+        <div class="item">Strip leading zeros from result</div>
+      </div>
+    </div>
+
+    <div class="section-label">Traps</div>
+    <div class="trap">Leading zeros in result — always strip with <code>while (size > 1 && front == '0') remove front</code>.</div>
+    <div class="trap">Zero has no sign — make sure <code>-0</code> normalizes to <code>0</code>.</div>
+    <div class="trap">Comparison operators must handle sign and then magnitude separately.</div>
+    <div class="trap">OCF still required — if you use raw pointers for digit storage, deep copy in copy ctor/assignment.</div>
+    <div class="tip">Use std::string for digits — it gives you size(), substr(), and easy reversal for free.</div>
+
+    <div class="section-label">Skeleton — class shell</div>
+<div class="code-block"><span class="kw">class</span> BigInt
+{
+<span class="kw">private</span>:
+    std::string _digits;   <span class="cm">// stored MSB-first, e.g. "12345"</span>
+    <span class="kw">bool</span>        _neg;
+
+    <span class="kw">static</span> std::string <span class="fn">addStrings</span>(<span class="kw">const</span> std::string <span class="op">&amp;</span>a, <span class="kw">const</span> std::string <span class="op">&amp;</span>b);
+    <span class="kw">static</span> std::string <span class="fn">subStrings</span>(<span class="kw">const</span> std::string <span class="op">&amp;</span>a, <span class="kw">const</span> std::string <span class="op">&amp;</span>b);
+    <span class="kw">static</span> <span class="kw">int</span>         <span class="fn">cmpAbs</span>(<span class="kw">const</span> std::string <span class="op">&amp;</span>a, <span class="kw">const</span> std::string <span class="op">&amp;</span>b);
+
+<span class="kw">public</span>:
+    BigInt();                               <span class="cm">// default: 0</span>
+    BigInt(<span class="kw">long long</span> n);                   <span class="cm">// from int</span>
+    BigInt(<span class="kw">const</span> std::string <span class="op">&amp;</span>s);         <span class="cm">// from string</span>
+    BigInt(<span class="kw">const</span> BigInt <span class="op">&amp;</span>o);              <span class="cm">// copy ctor</span>
+    BigInt <span class="op">&amp;</span><span class="kw">operator</span><span class="op">=</span>(<span class="kw">const</span> BigInt <span class="op">&amp;</span>o);  <span class="cm">// copy assign</span>
+    <span class="op">~</span>BigInt();
+
+    BigInt <span class="kw">operator</span><span class="op">+</span>(<span class="kw">const</span> BigInt <span class="op">&amp;</span>r) <span class="kw">const</span>;
+    BigInt <span class="kw">operator</span><span class="op">-</span>(<span class="kw">const</span> BigInt <span class="op">&amp;</span>r) <span class="kw">const</span>;
+    BigInt <span class="kw">operator</span><span class="op">*</span>(<span class="kw">const</span> BigInt <span class="op">&amp;</span>r) <span class="kw">const</span>;
+    <span class="kw">bool</span>   <span class="kw">operator</span><span class="op">==</span>(<span class="kw">const</span> BigInt <span class="op">&amp;</span>r) <span class="kw">const</span>;
+    <span class="kw">bool</span>   <span class="kw">operator</span><span class="op">&lt;</span>(<span class="kw">const</span> BigInt <span class="op">&amp;</span>r)  <span class="kw">const</span>;
+
+    <span class="kw">friend</span> std::ostream <span class="op">&amp;</span><span class="kw">operator</span><span class="op">&lt;&lt;</span>(std::ostream <span class="op">&amp;</span>os, <span class="kw">const</span> BigInt <span class="op">&amp;</span>b)
+    { <span class="kw">return</span> os <span class="op">&lt;&lt;</span> (b._neg <span class="op">?</span> <span class="str">"-"</span> : <span class="str">""</span>) <span class="op">&lt;&lt;</span> b._digits; }
+};</div>
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- BSQ                                                           -->
+  <!-- ============================================================ -->
+  <div id="bsq" class="panel">
+    <div class="section-label">Algorithm — one formula</div>
+    <div class="card">
+      <div class="item">For every non-obstacle cell: <code>dp[i][j] = 1 + min(dp[i-1][j], dp[i][j-1], dp[i-1][j-1])</code></div>
+      <div class="item">Track the max value and its position as you fill the DP table</div>
+      <div class="item">Then fill a square of size <code>max</code> starting at that position with the full character</div>
+    </div>
+
+    <div class="section-label">DP Example</div>
+    <table class="dp-table">
+      <tr><th>input</th><th>0</th><th>0</th><th>1</th><th>0</th><th>0</th></tr>
+      <tr><td>dp →</td><td>1</td><td>1</td><td>0</td><td>1</td><td>1</td></tr>
+      <tr><td></td><td>1</td><td class="hi">2</td><td>0</td><td>1</td><td class="hi">2</td></tr>
+      <tr><td></td><td>1</td><td class="hi">2</td><td>0</td><td>1</td><td class="hi">3</td></tr>
+    </table>
+    <div style="font-size:11px;color:var(--muted);margin-top:-0.25rem;margin-bottom:0.75rem">0 = obstacle, highlighted = growing square sizes</div>
+
+    <div class="section-label">Parsing the Map</div>
+    <div class="card">
+      <div class="item">First line of the map encodes: <code>size obstacle_char empty_char full_char</code></div>
+      <div class="item">Read with <code>getline</code> or <code>fscanf</code> — validate before touching the grid</div>
+      <div class="item">If invalid input → write error to stderr and exit</div>
+    </div>
+
+    <div class="section-label">Traps</div>
+    <div class="trap">Off-by-one in square fill: square starts at <code>(i - size + 1, j - size + 1)</code>, not at <code>(i, j)</code>.</div>
+    <div class="trap">First row/col: <code>dp[0][j]</code> and <code>dp[i][0]</code> are just 0 or 1 — no min of three needed.</div>
+    <div class="trap">Map validation: wrong number of columns, invalid chars → error output, non-zero exit.</div>
+    <div class="trap">Output: print the modified map (not just the square) to stdout.</div>
+
+    <div class="section-label">Skeleton</div>
+<div class="code-block"><span class="cm">// 1. Parse header: obstacle, empty, full chars + expected width</span>
+<span class="cm">// 2. Read map into vector&lt;string&gt;, validate each row</span>
+<span class="cm">// 3. Build DP grid</span>
+
+<span class="kw">int</span> best <span class="op">=</span> <span class="num">0</span>, bi <span class="op">=</span> <span class="num">0</span>, bj <span class="op">=</span> <span class="num">0</span>;
+<span class="kw">for</span> (<span class="kw">int</span> i <span class="op">=</span> <span class="num">0</span>; i <span class="op">&lt;</span> rows; i<span class="op">++</span>) {
+    <span class="kw">for</span> (<span class="kw">int</span> j <span class="op">=</span> <span class="num">0</span>; j <span class="op">&lt;</span> cols; j<span class="op">++</span>) {
+        <span class="kw">if</span> (map[i][j] <span class="op">==</span> obstacle) { dp[i][j] <span class="op">=</span> <span class="num">0</span>; <span class="kw">continue</span>; }
+        <span class="kw">if</span> (i <span class="op">==</span> <span class="num">0</span> <span class="op">||</span> j <span class="op">==</span> <span class="num">0</span>)
+            dp[i][j] <span class="op">=</span> <span class="num">1</span>;
+        <span class="kw">else</span>
+            dp[i][j] <span class="op">=</span> <span class="num">1</span> <span class="op">+</span> std::min({dp[i<span class="op">-</span><span class="num">1</span>][j], dp[i][j<span class="op">-</span><span class="num">1</span>], dp[i<span class="op">-</span><span class="num">1</span>][j<span class="op">-</span><span class="num">1</span>]});
+        <span class="kw">if</span> (dp[i][j] <span class="op">&gt;</span> best) { best <span class="op">=</span> dp[i][j]; bi <span class="op">=</span> i; bj <span class="op">=</span> j; }
+    }
+}
+
+<span class="cm">// 4. Fill square — top-left corner is (bi - best + 1, bj - best + 1)</span>
+<span class="kw">for</span> (<span class="kw">int</span> i <span class="op">=</span> bi <span class="op">-</span> best <span class="op">+</span> <span class="num">1</span>; i <span class="op">&lt;=</span> bi; i<span class="op">++</span>)
+    <span class="kw">for</span> (<span class="kw">int</span> j <span class="op">=</span> bj <span class="op">-</span> best <span class="op">+</span> <span class="num">1</span>; j <span class="op">&lt;=</span> bj; j<span class="op">++</span>)
+        map[i][j] <span class="op">=</span> full;
+
+<span class="cm">// 5. Print map</span>
+<span class="kw">for</span> (<span class="kw">auto</span> <span class="op">&amp;</span>row : map)
+    std::cout <span class="op">&lt;&lt;</span> row <span class="op">&lt;&lt;</span> <span class="str">'\n'</span>;</div>
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- LIFE                                                          -->
+  <!-- ============================================================ -->
+  <div id="life" class="panel">
+    <div class="section-label">Rules (Conway)</div>
+    <div class="card">
+      <div class="item">Live cell with 2 or 3 live neighbors → survives</div>
+      <div class="item">Dead cell with exactly 3 live neighbors → becomes alive</div>
+      <div class="item">All other cells → die or stay dead</div>
+      <div class="item"><strong style="color:var(--red)">CRITICAL:</strong> compute next generation from a copy of current grid — never in-place</div>
+    </div>
+
+    <div class="section-label">Traps</div>
+    <div class="trap">Updating in-place: a cell you already updated affects the count of its neighbor → wrong output.</div>
+    <div class="trap">Boundary: check <code>i >= 0 && i < rows && j >= 0 && j < cols</code> for all 8 neighbors.</div>
+    <div class="trap">Read the subject — number of generations, input format, and output format vary per version.</div>
+    <div class="trap">Off-by-one in neighbor count: loop offset is -1..+1 but skip (0,0) — that's the cell itself.</div>
+
+    <div class="section-label">Skeleton</div>
+<div class="code-block"><span class="kw">int</span> <span class="fn">countNeighbors</span>(<span class="kw">const</span> std::vector<span class="op">&lt;</span>std::string<span class="op">&gt; &amp;</span>grid, <span class="kw">int</span> r, <span class="kw">int</span> c)
+{
+    <span class="kw">int</span> count <span class="op">=</span> <span class="num">0</span>, rows <span class="op">=</span> grid.size(), cols <span class="op">=</span> grid[<span class="num">0</span>].size();
+    <span class="kw">for</span> (<span class="kw">int</span> dr <span class="op">=</span> <span class="op">-</span><span class="num">1</span>; dr <span class="op">&lt;=</span> <span class="num">1</span>; dr<span class="op">++</span>)
+        <span class="kw">for</span> (<span class="kw">int</span> dc <span class="op">=</span> <span class="op">-</span><span class="num">1</span>; dc <span class="op">&lt;=</span> <span class="num">1</span>; dc<span class="op">++</span>) {
+            <span class="kw">if</span> (dr <span class="op">==</span> <span class="num">0</span> <span class="op">&amp;&amp;</span> dc <span class="op">==</span> <span class="num">0</span>) <span class="kw">continue</span>;  <span class="cm">// skip self</span>
+            <span class="kw">int</span> nr <span class="op">=</span> r <span class="op">+</span> dr, nc <span class="op">=</span> c <span class="op">+</span> dc;
+            <span class="kw">if</span> (nr <span class="op">&gt;=</span> <span class="num">0</span> <span class="op">&amp;&amp;</span> nr <span class="op">&lt;</span> rows <span class="op">&amp;&amp;</span> nc <span class="op">&gt;=</span> <span class="num">0</span> <span class="op">&amp;&amp;</span> nc <span class="op">&lt;</span> cols <span class="op">&amp;&amp;</span> grid[nr][nc] <span class="op">==</span> <span class="str">'*'</span>)
+                count<span class="op">++</span>;
+        }
+    <span class="kw">return</span> count;
+}
+
+std::vector<span class="op">&lt;</span>std::string<span class="op">&gt;</span> <span class="fn">nextGen</span>(<span class="kw">const</span> std::vector<span class="op">&lt;</span>std::string<span class="op">&gt; &amp;</span>grid)
+{
+    std::vector<span class="op">&lt;</span>std::string<span class="op">&gt;</span> next <span class="op">=</span> grid;  <span class="cm">// copy — never modify original</span>
+    <span class="kw">for</span> (<span class="kw">int</span> r <span class="op">=</span> <span class="num">0</span>; r <span class="op">&lt;</span> (<span class="kw">int</span>)grid.size(); r<span class="op">++</span>)
+        <span class="kw">for</span> (<span class="kw">int</span> c <span class="op">=</span> <span class="num">0</span>; c <span class="op">&lt;</span> (<span class="kw">int</span>)grid[<span class="num">0</span>].size(); c<span class="op">++</span>) {
+            <span class="kw">int</span> n <span class="op">=</span> <span class="fn">countNeighbors</span>(grid, r, c);
+            <span class="kw">if</span> (grid[r][c] <span class="op">==</span> <span class="str">'*'</span>)
+                next[r][c] <span class="op">=</span> (n <span class="op">==</span> <span class="num">2</span> <span class="op">||</span> n <span class="op">==</span> <span class="num">3</span>) <span class="op">?</span> <span class="str">'*'</span> : <span class="str">'.'</span>;
+            <span class="kw">else</span>
+                next[r][c] <span class="op">=</span> (n <span class="op">==</span> <span class="num">3</span>) <span class="op">?</span> <span class="str">'*'</span> : <span class="str">'.'</span>;
+        }
+    <span class="kw">return</span> next;
+}
+
+<span class="cm">// main loop: repeat nextGen() for N generations, print final grid</span></div>
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- SCHEDULE                                                      -->
+  <!-- ============================================================ -->
+  <div id="schedule" class="panel">
+    <div class="section-label">3-Hour Block Plan</div>
+    <div class="card">
+      <div class="sched-row">
+        <div class="sched-time">T + 0:00–0:10</div>
+        <div class="sched-content"><span class="badge b-red">READ</span> &nbsp;Read this guide end to end. Build the mental map. Nothing else.</div>
+      </div>
+      <div class="sched-row">
+        <div class="sched-time">T + 0:10–0:45</div>
+        <div class="sched-content"><span class="badge b-amber">vect2</span> &nbsp;Write the full .hpp from memory. Focus: template header, all 3 ctors, const on operators, <code>operator&lt;&lt;</code> as friend.</div>
+      </div>
+      <div class="sched-row">
+        <div class="sched-time">T + 0:45–1:00</div>
+        <div class="sched-content"><span class="badge b-amber">vect2</span> &nbsp;Write a <code>main.cpp</code>, compile with <code>c++ -Wall -std=c++98</code>. Fix issues. Lock it in.</div>
+      </div>
+      <div class="sched-row">
+        <div class="sched-time">T + 1:00–1:10</div>
+        <div class="sched-content"><span class="badge b-red">BREAK</span> &nbsp;Walk. Breathe. Hard stop — your brain consolidates during breaks.</div>
+      </div>
+      <div class="sched-row">
+        <div class="sched-time">T + 1:10–1:50</div>
+        <div class="sched-content"><span class="badge b-purple">polyset</span> &nbsp;Draw the 3-layer diagram mentally. Write searchable_array_bag, then set. OCF on every class.</div>
+      </div>
+      <div class="sched-row">
+        <div class="sched-time">T + 1:50–2:10</div>
+        <div class="sched-content"><span class="badge b-green">bsq</span> &nbsp;Write the DP loop + fill logic from memory. The formula is one line — drill that first.</div>
+      </div>
+      <div class="sched-row">
+        <div class="sched-time">T + 2:10–2:20</div>
+        <div class="sched-content"><span class="badge b-red">BREAK</span> &nbsp;Walk. Breathe. Hard stop.</div>
+      </div>
+      <div class="sched-row">
+        <div class="sched-time">T + 2:20–2:45</div>
+        <div class="sched-content"><span class="badge b-teal">life</span> &nbsp;Write countNeighbors + nextGen from memory. Verify: copy grid before modifying, skip (0,0) offset.</div>
+      </div>
+      <div class="sched-row">
+        <div class="sched-time">T + 2:45–2:55</div>
+        <div class="sched-content"><span class="badge b-blue">bigint</span> &nbsp;Only if everything else is solid. Sketch the class shell + addStrings only.</div>
+      </div>
+      <div class="sched-row">
+        <div class="sched-time">T + 2:55–3:00</div>
+        <div class="sched-content"><span class="badge b-red">RESET</span> &nbsp;Stop coding. Run the pre-submit checklist mentally for each exercise. Then sleep.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- MEMORY TRICKS                                                 -->
+  <!-- ============================================================ -->
+  <div id="compress" class="panel">
+    <div class="section-label">Mnemonic Chunks</div>
+
+    <div class="compress-box">
+      <div class="compress-title">vect2 → "SCOO"</div>
+      <div class="compress-item"><span class="compress-key">S</span> — struct: template header + T x, y</div>
+      <div class="compress-item"><span class="compress-key">C</span> — constructors: default, param, copy, destructor</div>
+      <div class="compress-item"><span class="compress-key">O</span> — operator=: canonical with self-guard</div>
+      <div class="compress-item"><span class="compress-key">O</span> — overloads: +, -, *, ==, &lt;&lt; (friend)</div>
+    </div>
+
+    <div class="compress-box">
+      <div class="compress-title">polyset → "3-layer pyramid"</div>
+      <div class="compress-item"><span class="compress-key">Bottom</span> — given: array_bag, tree_bag</div>
+      <div class="compress-item"><span class="compress-key">Middle</span> — you write: searchable_array_bag, searchable_tree_bag (contains())</div>
+      <div class="compress-item"><span class="compress-key">Top</span> — you write: set (holds a searchable_bag*, checks contains before add)</div>
+    </div>
+
+    <div class="compress-box">
+      <div class="compress-title">bsq → "Parse → DP → Fill → Print"</div>
+      <div class="compress-item"><span class="compress-key">Parse</span> — read header chars, validate map rows</div>
+      <div class="compress-item"><span class="compress-key">DP</span> — <code>1 + min(top, left, diag)</code>, track max position</div>
+      <div class="compress-item"><span class="compress-key">Fill</span> — top-left corner = <code>(bi - best + 1, bj - best + 1)</code></div>
+      <div class="compress-item"><span class="compress-key">Print</span> — output entire modified map</div>
+    </div>
+
+    <div class="compress-box">
+      <div class="compress-title">life → "Copy → Count → Apply"</div>
+      <div class="compress-item"><span class="compress-key">Copy</span> — always work from a copy of the grid, never in-place</div>
+      <div class="compress-item"><span class="compress-key">Count</span> — 8 neighbors, skip (0,0), clamp to bounds</div>
+      <div class="compress-item"><span class="compress-key">Apply</span> — live: survive if 2 or 3 · dead: born if exactly 3</div>
+    </div>
+
+    <div class="section-label">OCF — Universal Rule (every C++ class)</div>
+    <div class="card">
+      <div class="item">Default constructor → copy constructor → copy assignment → destructor</div>
+      <div class="item">Copy assignment always: self-guard first, deep copy, return <code>*this</code></div>
+      <div class="item">Base classes with virtual methods: always add <code>virtual ~Base() {}</code></div>
+    </div>
+
+    <div class="section-label">Speed Drill</div>
+    <div class="card">
+      <div class="item">Write skeleton → delete entirely → rewrite. Repeat 3×. 3rd write = exam-ready.</div>
+      <div class="item">Muscle memory beats conceptual recall under pressure. Drill the typing.</div>
+      <div class="item">Hesitation on a specific line = your weak spot. Isolate and drill that line only.</div>
+    </div>
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- CHECKLIST                                                     -->
+  <!-- ============================================================ -->
+  <div id="checklist" class="panel">
+    <div class="section-label">Pre-Submit — run this before every submission</div>
+    <div class="card">
+      <div id="checks">
+        <div class="checklist-item" onclick="toggle(this)">
+          <div class="check-box"></div>
+          <div class="check-label"><span class="badge b-amber" style="margin-right:6px">vect2</span> Template entirely in <code>.hpp</code> — nothing split to <code>.cpp</code></div>
+        </div>
+        <div class="checklist-item" onclick="toggle(this)">
+          <div class="check-box"></div>
+          <div class="check-label"><span class="badge b-amber" style="margin-right:6px">vect2</span> All operator methods end with <code>const</code></div>
+        </div>
+        <div class="checklist-item" onclick="toggle(this)">
+          <div class="check-box"></div>
+          <div class="check-label"><span class="badge b-amber" style="margin-right:6px">vect2</span> <code>operator&lt;&lt;</code> is a <code>friend</code> — not a member function</div>
+        </div>
+        <div class="checklist-item" onclick="toggle(this)">
+          <div class="check-box"></div>
+          <div class="check-label"><span class="badge b-amber" style="margin-right:6px">vect2</span> <code>#ifndef</code> include guard in .hpp</div>
+        </div>
+        <div class="checklist-item" onclick="toggle(this)">
+          <div class="check-box"></div>
+          <div class="check-label"><span class="badge b-purple" style="margin-right:6px">polyset</span> OCF on every class I wrote (not just set)</div>
+        </div>
+        <div class="checklist-item" onclick="toggle(this)">
+          <div class="check-box"></div>
+          <div class="check-label"><span class="badge b-purple" style="margin-right:6px">polyset</span> Base classes have <code>virtual</code> destructors</div>
+        </div>
+        <div class="checklist-item" onclick="toggle(this)">
+          <div class="check-box"></div>
+          <div class="check-label"><span class="badge b-purple" style="margin-right:6px">polyset</span> set stores a <code>searchable_bag*</code> pointer — not a value (no slicing)</div>
+        </div>
+        <div class="checklist-item" onclick="toggle(this)">
+          <div class="check-box"></div>
+          <div class="check-label"><span class="badge b-purple" style="margin-right:6px">polyset</span> set::add checks <code>contains()</code> before inserting</div>
+        </div>
+        <div class="checklist-item" onclick="toggle(this)">
+          <div class="check-box"></div>
+          <div class="check-label"><span class="badge b-green" style="margin-right:6px">bsq</span> Square fill uses <code>(bi - best + 1, bj - best + 1)</code> as top-left corner</div>
+        </div>
+        <div class="checklist-item" onclick="toggle(this)">
+          <div class="check-box"></div>
+          <div class="check-label"><span class="badge b-green" style="margin-right:6px">bsq</span> First row/col initialized to 0 or 1 — no three-way min on edges</div>
+        </div>
+        <div class="checklist-item" onclick="toggle(this)">
+          <div class="check-box"></div>
+          <div class="check-label"><span class="badge b-green" style="margin-right:6px">bsq</span> Invalid map → error on stderr + non-zero exit</div>
+        </div>
+        <div class="checklist-item" onclick="toggle(this)">
+          <div class="check-box"></div>
+          <div class="check-label"><span class="badge b-teal" style="margin-right:6px">life</span> nextGen works on a copy of the grid — never modifying while reading</div>
+        </div>
+        <div class="checklist-item" onclick="toggle(this)">
+          <div class="check-box"></div>
+          <div class="check-label"><span class="badge b-teal" style="margin-right:6px">life</span> Neighbor loop skips <code>dr==0 && dc==0</code> (the cell itself)</div>
+        </div>
+        <div class="checklist-item" onclick="toggle(this)">
+          <div class="check-box"></div>
+          <div class="check-label"><span class="badge b-teal" style="margin-right:6px">life</span> Boundary bounds check on all 8 neighbors</div>
+        </div>
+        <div class="checklist-item" onclick="toggle(this)">
+          <div class="check-box"></div>
+          <div class="check-label" style="color:var(--muted)">Compiles with <code>c++ -Wall -Wextra -Werror -std=c++98</code> — zero warnings</div>
+        </div>
+      </div>
+    </div>
+    <div style="font-size:12px;color:var(--muted);margin-top:0.5rem;text-align:right" id="check-status">0 / 15 checked</div>
+  </div>
+
+  <div class="footer">42 Network · exam rank 05 · bonne chance — you got this</div>
+</div>
+
+<script>
+  function show(id, btn) {
+    document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+    document.getElementById(id).classList.add('active');
+    btn.classList.add('active');
+  }
+
+  function toggle(el) {
+    el.classList.toggle('done');
+    const total = document.querySelectorAll('.checklist-item').length;
+    const done  = document.querySelectorAll('.checklist-item.done').length;
+    document.getElementById('check-status').textContent = done + ' / ' + total + ' checked';
+  }
+</script>
+</body>
+</html>
